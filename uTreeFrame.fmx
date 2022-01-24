@@ -1,0 +1,50 @@
+object TreeFrame: TTreeFrame
+  Align = Client
+  Size.Width = 516.000000000000000000
+  Size.Height = 608.000000000000000000
+  Size.PlatformDefault = False
+  object Pano: TScrollBox
+    Align = Client
+    Size.Width = 516.000000000000000000
+    Size.Height = 560.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    DisableMouseWheel = True
+    Viewport.Width = 516.000000000000000000
+    Viewport.Height = 560.000000000000000000
+    object Image: TImage
+      MultiResBitmap = <
+        item
+        end>
+      Align = Contents
+      Size.Width = 516.000000000000000000
+      Size.Height = 560.000000000000000000
+      Size.PlatformDefault = False
+      object Layout1: TLayout
+        Align = Contents
+        Size.Width = 516.000000000000000000
+        Size.Height = 560.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 0
+      end
+    end
+  end
+  object Layout2: TLayout
+    Align = Bottom
+    Position.Y = 560.000000000000000000
+    Size.Width = 516.000000000000000000
+    Size.Height = 48.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    object spGeneration: TSpinBox
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      TabOrder = 0
+      Cursor = crIBeam
+      Min = 2.000000000000000000
+      Value = 2.000000000000000000
+      Position.X = 8.000000000000000000
+      Position.Y = 8.000000000000000000
+      OnChange = spGenerationChange
+    end
+  end
+end
