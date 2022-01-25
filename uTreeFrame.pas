@@ -516,7 +516,6 @@ begin
       if (layPano.Controls[k] is TLayout) then
       begin
         (layPano.Controls[k] as TLayout).Parent := nil;
-        FreeAndNil(layPano.Controls[k] as TLayout);
         dec(k);
         Continue;
       end;
@@ -524,7 +523,6 @@ begin
       if (layPano.Controls[k] is TLine) then
       begin
         (layPano.Controls[k] as TLine).Parent := nil;
-        FreeAndNil(layPano.Controls[k] as TLine);
         dec(k);
       end;
     end;
