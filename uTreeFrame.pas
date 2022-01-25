@@ -152,7 +152,7 @@ begin
   if childID > 0 then
   begin
     i := 1;
-    ExeActive('select * from brothers_sisters where child_id = ' + childID.ToString + ' and bs <> ' + childID.ToString);
+    ExeActive('select * from brothers_sisters where child_id = ' + childID.ToString + ' and bs <> ' + childID.ToString + ' order by born_year');
     with tmpQuery do
       while NOT EOF do
       begin
@@ -164,7 +164,7 @@ begin
 
             Stack.Add(tmpChild);
             posParent := GetPosition(tmpChild.child, FieldByName('sex').AsString);
-            posParent.X := posParent.X + 170;
+            posParent.X := posParent.X + 170*i;
             posChild := GetPosChild(tmpChild.child, FieldByName('sex').AsString);
             CreatePeople(layPano, tmpChild.child, FieldByName('name').AsString, FieldByName('sex').AsString, FieldByName('photo'), FieldByName('photoExist').AsInteger, FieldByName('IsDead').AsInteger, posParent, posChild, i);
           end;
@@ -502,7 +502,7 @@ var
   startChild: integer;
 begin
   selRect.Visible := false;
-  firstChild := 17;
+  firstChild := 1;
   Stack.Clear;
   layPano.Width := Power(2, spGeneration.Value - 1) * 150;
   layPano.Height := spGeneration.Value * 250;
