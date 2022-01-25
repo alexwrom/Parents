@@ -4,6 +4,8 @@ object MainForm: TMainForm
   Caption = 'Form1'
   ClientHeight = 532
   ClientWidth = 1016
+  Fill.Color = claBlack
+  Fill.Kind = Solid
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
