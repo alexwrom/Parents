@@ -1,27 +1,229 @@
 object TreeFrame: TTreeFrame
   Align = Client
-  Size.Width = 500.000000000000000000
-  Size.Height = 608.000000000000000000
+  Size.Width = 536.000000000000000000
+  Size.Height = 630.000000000000000000
   Size.PlatformDefault = False
   object Pano: TScrollBox
     Align = Client
-    Size.Width = 500.000000000000000000
-    Size.Height = 560.000000000000000000
+    Size.Width = 536.000000000000000000
+    Size.Height = 582.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 0
-    Viewport.Width = 500.000000000000000000
-    Viewport.Height = 560.000000000000000000
+    OnClick = PanoClick
+    Viewport.Width = 536.000000000000000000
+    Viewport.Height = 582.000000000000000000
     object layPano: TLayout
-      Position.Y = -10.000000000000000000
-      Size.Width = 225.000000000000000000
-      Size.Height = 195.000000000000000000
+      Size.Width = 432.000000000000000000
+      Size.Height = 355.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 0
+      OnClick = layPanoClick
+      object selRect: TRectangle
+        Fill.Color = claYellowgreen
+        Position.X = 64.000000000000000000
+        Position.Y = 48.000000000000000000
+        Size.Width = 210.000000000000000000
+        Size.Height = 70.000000000000000000
+        Size.PlatformDefault = False
+        Stroke.Kind = None
+        Visible = False
+        XRadius = 10.000000000000000000
+        YRadius = 10.000000000000000000
+        object ShadowEffect1: TShadowEffect
+          Distance = 3.000000000000000000
+          Direction = 45.000000000000000000
+          Softness = 0.300000011920929000
+          Opacity = 0.600000023841857900
+          ShadowColor = claBlack
+        end
+        object Rectangle1: TRectangle
+          Align = Client
+          Fill.Color = claSlategray
+          Margins.Top = 10.000000000000000000
+          Size.Width = 210.000000000000000000
+          Size.Height = 60.000000000000000000
+          Size.PlatformDefault = False
+          Stroke.Kind = None
+          XRadius = 10.000000000000000000
+          YRadius = 10.000000000000000000
+          object Rectangle2: TRectangle
+            Align = Bottom
+            Fill.Color = claYellowgreen
+            Margins.Left = 5.000000000000000000
+            Margins.Top = 5.000000000000000000
+            Margins.Right = 5.000000000000000000
+            Margins.Bottom = 5.000000000000000000
+            Position.X = 5.000000000000000000
+            Position.Y = 5.000000000000000000
+            Size.Width = 200.000000000000000000
+            Size.Height = 50.000000000000000000
+            Size.PlatformDefault = False
+            Stroke.Kind = None
+            XRadius = 10.000000000000000000
+            YRadius = 10.000000000000000000
+            object Layout1: TLayout
+              Align = Center
+              Size.Width = 200.000000000000000000
+              Size.Height = 50.000000000000000000
+              Size.PlatformDefault = False
+              TabOrder = 0
+              object GridPanelLayout1: TGridPanelLayout
+                Align = Client
+                Size.Width = 200.000000000000000000
+                Size.Height = 50.000000000000000000
+                Size.PlatformDefault = False
+                TabOrder = 0
+                ColumnCollection = <
+                  item
+                    Value = 24.999999970498180000
+                  end
+                  item
+                    Value = 25.000000014213770000
+                  end
+                  item
+                    Value = 25.000000017655510000
+                  end
+                  item
+                    Value = 24.999999997632540000
+                  end>
+                ControlCollection = <
+                  item
+                    Column = 0
+                    Control = Layout3
+                    Row = 0
+                  end
+                  item
+                    Column = 1
+                    Control = Layout4
+                    Row = 0
+                  end
+                  item
+                    Column = 2
+                    Control = Layout5
+                    Row = 0
+                  end
+                  item
+                    Column = 3
+                    Control = Layout6
+                    Row = 0
+                  end>
+                RowCollection = <
+                  item
+                    Value = 100.000000000000000000
+                  end>
+                object Layout3: TLayout
+                  Align = Client
+                  TabOrder = 3
+                  object Circle1: TCircle
+                    Align = Contents
+                    Fill.Color = claWhite
+                    Margins.Left = 2.000000000000000000
+                    Margins.Top = 2.000000000000000000
+                    Margins.Right = 2.000000000000000000
+                    Margins.Bottom = 2.000000000000000000
+                    Size.Width = 46.000000000000000000
+                    Size.Height = 46.000000000000000000
+                    Size.PlatformDefault = False
+                    Stroke.Color = claSlategray
+                    object SpeedButton1: TSpeedButton
+                      Align = Client
+                      Size.Width = 46.000000000000000000
+                      Size.Height = 46.000000000000000000
+                      Size.PlatformDefault = False
+                      StyleLookup = 'transparentcirclebuttonstyle'
+                      Text = 'SpeedButton1'
+                    end
+                  end
+                end
+                object Layout4: TLayout
+                  Align = Client
+                  TabOrder = 2
+                  object Circle2: TCircle
+                    Align = Contents
+                    Fill.Color = claWhite
+                    Margins.Left = 2.000000000000000000
+                    Margins.Top = 2.000000000000000000
+                    Margins.Right = 2.000000000000000000
+                    Margins.Bottom = 2.000000000000000000
+                    Size.Width = 46.000000000000000000
+                    Size.Height = 46.000000000000000000
+                    Size.PlatformDefault = False
+                    Stroke.Color = claSlategray
+                    object SpeedButton2: TSpeedButton
+                      Align = Client
+                      Size.Width = 46.000000000000000000
+                      Size.Height = 46.000000000000000000
+                      Size.PlatformDefault = False
+                      StyleLookup = 'transparentcirclebuttonstyle'
+                      Text = 'SpeedButton1'
+                    end
+                  end
+                end
+                object Layout5: TLayout
+                  Align = Client
+                  TabOrder = 1
+                  object Circle3: TCircle
+                    Align = Contents
+                    Fill.Color = claWhite
+                    Margins.Left = 2.000000000000000000
+                    Margins.Top = 2.000000000000000000
+                    Margins.Right = 2.000000000000000000
+                    Margins.Bottom = 2.000000000000000000
+                    Size.Width = 46.000000000000000000
+                    Size.Height = 46.000000000000000000
+                    Size.PlatformDefault = False
+                    Stroke.Color = claSlategray
+                    object SpeedButton3: TSpeedButton
+                      Align = Client
+                      Size.Width = 46.000000000000000000
+                      Size.Height = 46.000000000000000000
+                      Size.PlatformDefault = False
+                      StyleLookup = 'transparentcirclebuttonstyle'
+                      Text = 'SpeedButton1'
+                    end
+                  end
+                end
+                object Layout6: TLayout
+                  Align = Client
+                  TabOrder = 0
+                  object Circle4: TCircle
+                    Align = Contents
+                    Fill.Color = claWhite
+                    Margins.Left = 2.000000000000000000
+                    Margins.Top = 2.000000000000000000
+                    Margins.Right = 2.000000000000000000
+                    Margins.Bottom = 2.000000000000000000
+                    Size.Width = 46.000000000000000000
+                    Size.Height = 46.000000000000000000
+                    Size.PlatformDefault = False
+                    Stroke.Color = claSlategray
+                    object SpeedButton4: TSpeedButton
+                      Align = Client
+                      Size.Width = 46.000000000000000000
+                      Size.Height = 46.000000000000000000
+                      Size.PlatformDefault = False
+                      StyleLookup = 'transparentcirclebuttonstyle'
+                      Text = 'SpeedButton1'
+                    end
+                  end
+                end
+              end
+            end
+          end
+          object layBS: TLayout
+            Align = Client
+            Size.Width = 210.000000000000000000
+            Size.Height = 0.000000000000000000
+            Size.PlatformDefault = False
+            TabOrder = 3
+          end
+        end
+      end
     end
   end
   object Layout2: TLayout
     Align = Top
-    Size.Width = 500.000000000000000000
+    Size.Width = 536.000000000000000000
     Size.Height = 48.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 1
@@ -55,7 +257,7 @@ object TreeFrame: TTreeFrame
     end
     object btnPrint: TSpeedButton
       Align = Right
-      Position.X = 440.000000000000000000
+      Position.X = 476.000000000000000000
       Size.Width = 60.000000000000000000
       Size.Height = 48.000000000000000000
       Size.PlatformDefault = False
@@ -1477,7 +1679,7 @@ object TreeFrame: TTreeFrame
             Name = 'pngwing.com'
           end>
       end>
-    Left = 248
-    Top = 312
+    Left = 400
+    Top = 448
   end
 end
