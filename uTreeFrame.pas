@@ -25,7 +25,7 @@ type
     btnDecZoom: TSpeedButton;
     btnPrint: TSpeedButton;
     layPano: TLayout;
-    selRect: TRectangle;
+    Rectangle: TRectangle;
     ShadowEffect1: TShadowEffect;
     Rectangle1: TRectangle;
     Rectangle2: TRectangle;
@@ -44,12 +44,19 @@ type
     Circle4: TCircle;
     SpeedButton4: TSpeedButton;
     layBS: TLayout;
+    HorzScrollBox1: THorzScrollBox;
+    Circle5: TCircle;
+    btnCloseSelRect: TSpeedButton;
+    selRect: TLayout;
+    Layout7: TLayout;
+    Layout8: TLayout;
     procedure spGenerationChange(Sender: TObject);
     procedure btnIncZoomClick(Sender: TObject);
     procedure btnDecZoomClick(Sender: TObject);
     procedure btnPrintClick(Sender: TObject);
     procedure layPanoClick(Sender: TObject);
     procedure PanoClick(Sender: TObject);
+    procedure btnCloseSelRectClick(Sender: TObject);
   private
     Stack: TList<rChild>;
     firstChild: integer;
@@ -71,6 +78,12 @@ uses uMain;
 {$R *.fmx}
 { TTreeFrame }
 
+procedure TTreeFrame.btnCloseSelRectClick(Sender: TObject);
+begin
+  selRect.Visible := false;
+  selRect.Tag := 0;
+end;
+
 procedure TTreeFrame.btnDecZoomClick(Sender: TObject);
 begin
   if layPano.Scale.X - 0.1 >= 0.1 then
@@ -87,6 +100,7 @@ begin
     layPano.Scale.X := layPano.Scale.X + 0.1;
     layPano.Scale.Y := layPano.Scale.Y + 0.1;
   end;
+
 end;
 
 procedure TTreeFrame.btnPrintClick(Sender: TObject);
@@ -164,7 +178,7 @@ begin
 
             Stack.Add(tmpChild);
             posParent := GetPosition(tmpChild.child, FieldByName('sex').AsString);
-            posParent.X := posParent.X + 170*i;
+            posParent.X := posParent.X + 170 * i;
             posChild := GetPosChild(tmpChild.child, FieldByName('sex').AsString);
             CreatePeople(layPano, tmpChild.child, FieldByName('name').AsString, FieldByName('sex').AsString, FieldByName('photo'), FieldByName('photoExist').AsInteger, FieldByName('IsDead').AsInteger, posParent, posChild, i);
           end;
@@ -217,24 +231,11 @@ begin
 
           if tmpQuery.RecordCount = 0 then
           begin
-            selRect.Width := 210;
-            selRect.Height := 70;
+            selRect.Height := 100;
           end
           else
           begin
-            if tmpQuery.RecordCount = 1 then
-              selRect.Width := 210
-            else
-              selRect.Width := tmpQuery.RecordCount * 150;
-            selRect.Height := 280;
-          end;
-          // Position
-          selRect.Position.X := ABS((layPano.Children[i] as TLayout).Position.X + (layPano.Children[i] as TLayout).Width / 2 - selRect.Width / 2);
-          selRect.Position.Y := (layPano.Children[i] as TLayout).Position.Y - selRect.Height;
-          if selRect.Position.Y < 0 then
-          begin
-            selRect.Position.Y := (layPano.Children[i] as TLayout).Position.Y;
-            selRect.Position.X :=  (layPano.Children[i] as TLayout).Position.X + (layPano.Children[i] as TLayout).Width;
+            selRect.Height := 320;
           end;
 
           selRect.BringToFront;
@@ -243,6 +244,7 @@ begin
             while NOT EOF do
             begin
               begin
+                layBS.Width := RecordCount * 150;
                 childBS := FieldByName('bs').AsInteger;
                 posChild := TPosition.Create(TPointF.Create(0, 0));
                 if tmpQuery.RecordCount = 1 then
@@ -319,9 +321,9 @@ begin
     Tag := ID;
     Hint := childSex;
     ClipChildren := true;
-    if layPano.Width < tmpLay.Position.Y + Width then
-      layPano.Width := tmpLay.Position.Y + Width
-    else
+    if layPano.Width < tmpLay.Position.X + tmpLay.Width then
+      layPano.Width := tmpLay.Position.X + tmpLay.Width
+    else if layPano.Width < Power(2, spGeneration.Value - 1) * 150 then
       layPano.Width := Power(2, spGeneration.Value - 1) * 150;
   end;
 
@@ -386,7 +388,7 @@ begin
   begin
     Parent := tmpLay;
     Align := TAlignLayout.Client;
-    Stroke.Thickness := 3;
+    Stroke.Thickness := 6;
     Stroke.Color := TAlphaColors.Slategray;
 
     Fill.Bitmap.Bitmap.Assign(photo);
@@ -421,7 +423,7 @@ begin
     TextSettings.HorzAlign := TTextAlign.Center;
     TextSettings.FontColor := TAlphaColors.White;
     TextSettings.Font.Family := 'Roboto';
-    Font.Size := Font.Size;
+    Font.Size := 12;
     Text := childName;
   end;
 
