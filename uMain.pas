@@ -11,18 +11,23 @@ uses
   FireDAC.Stan.ExprFuncs, FireDAC.Phys.SQLiteWrapper.Stat, FireDAC.FMXUI.Wait,
   Data.DB, FireDAC.Comp.Client,IoUtils,uTreeFrame, FireDAC.Stan.Param,
   FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt, FireDAC.Comp.DataSet,
-  FireDAC.Comp.UI;
+  FireDAC.Comp.UI, FMX.TabControl, System.ImageList, FMX.ImgList;
 
 type
   TMainForm = class(TForm)
     Conn: TFDConnection;
     FDGUIxWaitCursor1: TFDGUIxWaitCursor;
+    controlMain: TTabControl;
+    tabTree: TTabItem;
+    tabAdd: TTabItem;
+    listNotPhoto: TImageList;
     procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
     { Public declarations }
     TreeFrame: TTreeFrame;
+
   end;
 
 var
@@ -50,8 +55,8 @@ begin
     ShowMessage('');
   end;
 
-  TreeFrame := TTreeFrame.Create(self);
-  TreeFrame.Parent := self;
+  TreeFrame := TTreeFrame.Create(tabTree);
+  TreeFrame.Parent := tabTree;
 end;
 
 end.

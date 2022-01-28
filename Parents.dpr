@@ -5,7 +5,8 @@ uses
   FMX.Forms,
   uMain in 'uMain.pas' {MainForm},
   uTreeFrame in 'uTreeFrame.pas' {TreeFrame: TFrame},
-  uLibrary in 'uLibrary.pas';
+  uLibrary in 'uLibrary.pas',
+  uAddChildFrame in 'uAddChildFrame.pas' {AddChildFrame: TFrame};
 
 {$R *.res}
 

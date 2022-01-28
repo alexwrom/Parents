@@ -7,7 +7,8 @@ uses
   FMX.Types, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs, FMX.StdCtrls, uLibrary,
   FMX.Layouts, FMX.Objects, FMX.Controls.Presentation, Generics.Collections, Math,
   FMX.Edit, FMX.EditBox, FMX.SpinBox, Data.DB, System.ImageList, FMX.ImgList,
-  FMX.ExtCtrls, FMX.Effects, FMX.Memo.Types, FMX.ScrollBox, FMX.Memo;
+  FMX.ExtCtrls, FMX.Effects, FMX.Memo.Types, FMX.ScrollBox, FMX.Memo,
+  FMX.Gestures, uAddChildFrame;
 
 type
   rChild = record
@@ -20,7 +21,6 @@ type
     Pano: TScrollBox;
     Layout2: TLayout;
     spGeneration: TSpinBox;
-    listNotPhoto: TImageList;
     btnIncZoom: TSpeedButton;
     btnDecZoom: TSpeedButton;
     btnPrint: TSpeedButton;
@@ -39,7 +39,7 @@ type
     SpeedButton2: TSpeedButton;
     Layout5: TLayout;
     Circle3: TCircle;
-    SpeedButton3: TSpeedButton;
+    btnAddChild: TSpeedButton;
     Layout6: TLayout;
     Circle4: TCircle;
     SpeedButton4: TSpeedButton;
@@ -50,16 +50,20 @@ type
     selRect: TLayout;
     Layout7: TLayout;
     Layout8: TLayout;
+    GestureManager1: TGestureManager;
+    ToolBar1: TToolBar;
     procedure spGenerationChange(Sender: TObject);
-    procedure btnIncZoomClick(Sender: TObject);
-    procedure btnDecZoomClick(Sender: TObject);
     procedure btnPrintClick(Sender: TObject);
     procedure layPanoClick(Sender: TObject);
     procedure PanoClick(Sender: TObject);
     procedure btnCloseSelRectClick(Sender: TObject);
+    procedure btnIncZoomClick(Sender: TObject);
+    procedure PanoGesture(Sender: TObject; const EventInfo: TGestureEventInfo; var Handled: Boolean);
+    procedure btnAddChildClick(Sender: TObject);
   private
     Stack: TList<rChild>;
     firstChild: integer;
+    FLastDistance: integer;
     procedure CreatePeople(parentObj: TFMXObject; ID: integer; childName, childSex: string; photo: TField; photoExist: integer; IsDead: integer; posParent, posChild: TPosition; BS: integer = 0);
     procedure GetChildParents(childID: integer);
     function GetPosChild(ID: integer; childSex: string): TPosition;
@@ -69,6 +73,7 @@ type
     { Private declarations }
   public
     { Public declarations }
+    AddChildFrame: TAddChildFrame;
     constructor Create(AOwner: TComponent);
   end;
 
@@ -78,29 +83,36 @@ uses uMain;
 {$R *.fmx}
 { TTreeFrame }
 
+procedure TTreeFrame.btnAddChildClick(Sender: TObject);
+
+begin
+  AddChildFrame := TAddChildFrame.Create(MainForm.tabAdd);
+  AddChildFrame.Parent := MainForm.tabAdd;
+  MainForm.controlMain.ActiveTab := MainForm.tabAdd;
+  ExeActive('select * from tree_data where child_id = ' + selRect.Tag.ToString);
+
+  if (selRect.Hint = 'm') then
+  begin
+    CreatePeople(AddChildFrame.layFather, selRect.Tag, tmpQuery.FieldByName('name').AsString, tmpQuery.FieldByName('sex').AsString, tmpQuery.FieldByName('photo'), tmpQuery.FieldByName('photoExist').AsInteger, tmpQuery.FieldByName('IsDead').AsInteger,
+      TPosition.Create(TPointF.Create(0, 0)), TPosition.Create(TPointF.Create(0, 0)), 0);
+    ExeActive('select * from tree_data where child_id = ' + tmpQuery.FieldByName('married').AsString);
+    CreatePeople(AddChildFrame.layMother, tmpQuery.FieldByName('child_Id').AsInteger, tmpQuery.FieldByName('name').AsString, tmpQuery.FieldByName('sex').AsString, tmpQuery.FieldByName('photo'), tmpQuery.FieldByName('photoExist').AsInteger,
+      tmpQuery.FieldByName('IsDead').AsInteger, TPosition.Create(TPointF.Create(0, 0)), TPosition.Create(TPointF.Create(0, 0)), 0);
+  end
+  else
+    begin
+    CreatePeople(AddChildFrame.layMother, selRect.Tag, tmpQuery.FieldByName('name').AsString, tmpQuery.FieldByName('sex').AsString, tmpQuery.FieldByName('photo'), tmpQuery.FieldByName('photoExist').AsInteger, tmpQuery.FieldByName('IsDead').AsInteger,
+      TPosition.Create(TPointF.Create(0, 0)), TPosition.Create(TPointF.Create(0, 0)), 0);
+    ExeActive('select * from tree_data where child_id = ' + tmpQuery.FieldByName('married').AsString);
+    CreatePeople(AddChildFrame.layFather, tmpQuery.FieldByName('child_Id').AsInteger, tmpQuery.FieldByName('name').AsString, tmpQuery.FieldByName('sex').AsString, tmpQuery.FieldByName('photo'), tmpQuery.FieldByName('photoExist').AsInteger,
+      tmpQuery.FieldByName('IsDead').AsInteger, TPosition.Create(TPointF.Create(0, 0)), TPosition.Create(TPointF.Create(0, 0)), 0);
+  end
+end;
+
 procedure TTreeFrame.btnCloseSelRectClick(Sender: TObject);
 begin
   selRect.Visible := false;
   selRect.Tag := 0;
-end;
-
-procedure TTreeFrame.btnDecZoomClick(Sender: TObject);
-begin
-  if layPano.Scale.X - 0.1 >= 0.1 then
-  begin
-    layPano.Scale.X := layPano.Scale.X - 0.1;
-    layPano.Scale.Y := layPano.Scale.Y - 0.1;
-  end;
-end;
-
-procedure TTreeFrame.btnIncZoomClick(Sender: TObject);
-begin
-  if layPano.Scale.X + 0.1 <= 1.5 then
-  begin
-    layPano.Scale.X := layPano.Scale.X + 0.1;
-    layPano.Scale.Y := layPano.Scale.Y + 0.1;
-  end;
-
 end;
 
 procedure TTreeFrame.btnPrintClick(Sender: TObject);
@@ -115,6 +127,7 @@ begin
   spGenerationChange(nil);
   Pano.ScrollTo(Pano.Width, Pano.Height);
   Pano.RecalcSize;
+  FLastDistance := 0;
 
 end;
 
@@ -189,6 +202,11 @@ begin
   end;
 end;
 
+procedure TTreeFrame.btnIncZoomClick(Sender: TObject);
+begin
+  Pano.RecalcSize;
+end;
+
 procedure TTreeFrame.btnPeopleSel(Sender: TObject);
 var
   i, k: integer;
@@ -224,7 +242,7 @@ begin
         if (layPano.Children[i] as TLayout).Tag = childID then
         begin
           selRect.Tag := childID;
-
+          selRect.Hint := (Sender as TSpeedButton).Hint;
           // -----
           k := 1;
           ExeActive('select * from brothers_sisters where child_id = ' + childID.ToString + ' and bs <> ' + childID.ToString + ' order by born_year');
@@ -394,9 +412,9 @@ begin
     Fill.Bitmap.Bitmap.Assign(photo);
     if photoExist = 0 then
       if childSex = 'm' then
-        Fill.Bitmap.Bitmap.Assign(listNotPhoto.Source[0].MultiResBitmap[0].Bitmap)
+        Fill.Bitmap.Bitmap.Assign(MainForm.listNotPhoto.Source[0].MultiResBitmap[0].Bitmap)
       else
-        Fill.Bitmap.Bitmap.Assign(listNotPhoto.Source[1].MultiResBitmap[0].Bitmap);
+        Fill.Bitmap.Bitmap.Assign(MainForm.listNotPhoto.Source[1].MultiResBitmap[0].Bitmap);
 
     Margins.Bottom := 50;
     Fill.Kind := TBrushKind.Bitmap;
@@ -409,6 +427,7 @@ begin
     Align := TAlignLayout.Client;
     StyleLookup := 'transparentcirclebuttonstyle';
     Tag := ID;
+    Hint := childSex;
     if parentObj = layPano then
       OnClick := btnPeopleSel;
   end;
@@ -423,7 +442,7 @@ begin
     TextSettings.HorzAlign := TTextAlign.Center;
     TextSettings.FontColor := TAlphaColors.White;
     TextSettings.Font.Family := 'Roboto';
-    Font.Size := 12;
+    Font.Size := 11;
     Text := childName;
   end;
 
@@ -494,6 +513,27 @@ begin
   selRect.Visible := false;
 end;
 
+procedure TTreeFrame.PanoGesture(Sender: TObject; const EventInfo: TGestureEventInfo; var Handled: Boolean);
+begin
+  layPano.Locked := true;
+  case EventInfo.GestureID of
+    igiZoom:
+      begin
+
+        if (not(TInteractiveGestureFlag.gfBegin in EventInfo.Flags)) and (not(TInteractiveGestureFlag.gfEnd in EventInfo.Flags)) then
+        begin
+          if (layPano.Scale.X + (EventInfo.Distance - FLastDistance) / 100 <= 2) and (layPano.Scale.X + (EventInfo.Distance - FLastDistance) / 100 >= 0.2) then
+          begin
+            layPano.Scale.X := layPano.Scale.X + (EventInfo.Distance - FLastDistance) / 100;
+            layPano.Scale.Y := layPano.Scale.Y + (EventInfo.Distance - FLastDistance) / 100;
+          end;
+        end;
+        FLastDistance := EventInfo.Distance;
+      end;
+  end;
+  layPano.Locked := false;
+end;
+
 procedure TTreeFrame.spGenerationChange(Sender: TObject);
 var
   child: rChild;
@@ -504,7 +544,7 @@ var
   startChild: integer;
 begin
   selRect.Visible := false;
-  firstChild := 1;
+  firstChild := 17;
   Stack.Clear;
   layPano.Width := Power(2, spGeneration.Value - 1) * 150;
   layPano.Height := spGeneration.Value * 250;
@@ -550,8 +590,6 @@ begin
     inc(i);
 
   end;
-
-  Pano.ScrollTo(Pano.Width, Pano.Height);
 
 end;
 
