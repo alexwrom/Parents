@@ -318,7 +318,7 @@ begin
         tmpLine.Position.X := posChild.X + 75;
         tmpLine.Position.Y := posChild.Y + 75;
       end;
-      tmpLine.Stroke.Color := TAlphaColors.White;
+      tmpLine.Stroke.Color := TAlphaColors.Slategray;
       tmpLine.Stroke.Thickness := 3;
       tmpLine.SendToBack;
       tmpLine.Visible := true;

@@ -35,6 +35,8 @@ object MainForm: TMainForm
       StyleLookup = ''
       TabOrder = 0
       Text = 'tabAdd'
+      ExplicitSize.cx = 8.000000000000000000
+      ExplicitSize.cy = 8.000000000000000000
     end
     object tabTree: TTabItem
       CustomIcon = <
@@ -46,6 +48,8 @@ object MainForm: TMainForm
       Size.PlatformDefault = False
       StyleLookup = ''
       TabOrder = 0
+      ExplicitSize.cx = 8.000000000000000000
+      ExplicitSize.cy = 8.000000000000000000
     end
   end
   object Conn: TFDConnection
