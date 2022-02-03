@@ -9,13 +9,15 @@ object MainForm: TMainForm
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
+  ShowHint = False
   OnCreate = FormCreate
-  DesignerMasterStyle = 0
+  DesignerMasterStyle = 3
   object controlMain: TTabControl
     Align = Client
     Size.Width = 592.000000000000000000
     Size.Height = 664.000000000000000000
     Size.PlatformDefault = False
+    TabHeight = 49.000000000000000000
     TabIndex = 1
     TabOrder = 2
     TabPosition = None

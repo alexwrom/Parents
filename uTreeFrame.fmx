@@ -3,6 +3,7 @@ object TreeFrame: TTreeFrame
   Size.Width = 448.000000000000000000
   Size.Height = 744.000000000000000000
   Size.PlatformDefault = False
+  OnMouseWheel = FrameMouseWheel
   object Pano: TScrollBox
     Touch.GestureManager = GestureManager1
     Touch.InteractiveGestures = [Zoom]
@@ -13,12 +14,13 @@ object TreeFrame: TTreeFrame
     Size.PlatformDefault = False
     TabOrder = 0
     OnClick = PanoClick
+    DisableMouseWheel = True
     Viewport.Width = 448.000000000000000000
     Viewport.Height = 656.000000000000000000
     object layPano: TLayout
       Align = Center
-      Size.Width = 137.000000000000000000
-      Size.Height = 121.000000000000000000
+      Size.Width = 50.000000000000000000
+      Size.Height = 50.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 0
       OnClick = layPanoClick
@@ -40,23 +42,6 @@ object TreeFrame: TTreeFrame
       Position.X = 8.000000000000000000
       Position.Y = 8.000000000000000000
       OnChange = spGenerationChange
-    end
-    object btnIncZoom: TSpeedButton
-      Position.X = 272.000000000000000000
-      Size.Width = 49.000000000000000000
-      Size.Height = 40.000000000000000000
-      Size.PlatformDefault = False
-      StyleLookup = 'stepperbuttonright'
-      Text = 'btnIncZoom'
-      OnClick = btnIncZoomClick
-    end
-    object btnDecZoom: TSpeedButton
-      Position.X = 215.000000000000000000
-      Size.Width = 49.000000000000000000
-      Size.Height = 40.000000000000000000
-      Size.PlatformDefault = False
-      StyleLookup = 'stepperbuttonleft'
-      Text = 'SpeedButton1'
     end
     object btnPrint: TSpeedButton
       Align = Right
@@ -544,13 +529,14 @@ object TreeFrame: TTreeFrame
                   Size.Height = 46.000000000000000000
                   Size.PlatformDefault = False
                   Stroke.Color = claSlategray
-                  object SpeedButton1: TSpeedButton
+                  object btnParent: TSpeedButton
                     Align = Client
                     Size.Width = 46.000000000000000000
                     Size.Height = 46.000000000000000000
                     Size.PlatformDefault = False
                     StyleLookup = 'transparentcirclebuttonstyle'
-                    Text = 'SpeedButton1'
+                    Text = 'btnParent'
+                    OnClick = btnParentClick
                   end
                 end
               end
@@ -897,13 +883,14 @@ object TreeFrame: TTreeFrame
                   Size.Height = 46.000000000000000000
                   Size.PlatformDefault = False
                   Stroke.Color = claSlategray
-                  object SpeedButton2: TSpeedButton
+                  object btnAddBS: TSpeedButton
                     Align = Client
                     Size.Width = 46.000000000000000000
                     Size.Height = 46.000000000000000000
                     Size.PlatformDefault = False
                     StyleLookup = 'transparentcirclebuttonstyle'
                     Text = 'SpeedButton1'
+                    OnClick = btnAddBSClick
                   end
                 end
               end
@@ -1262,13 +1249,14 @@ object TreeFrame: TTreeFrame
                   Size.Height = 46.000000000000000000
                   Size.PlatformDefault = False
                   Stroke.Color = claSlategray
-                  object SpeedButton4: TSpeedButton
+                  object btnInfo: TSpeedButton
                     Align = Client
                     Size.Width = 46.000000000000000000
                     Size.Height = 46.000000000000000000
                     Size.PlatformDefault = False
                     StyleLookup = 'transparentcirclebuttonstyle'
                     Text = 'SpeedButton1'
+                    OnClick = btnInfoClick
                   end
                 end
               end

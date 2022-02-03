@@ -8,6 +8,23 @@ object AddChildFrame: TAddChildFrame
     Size.Height = 40.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 0
+    object btnSave: TSpeedButton
+      Align = Right
+      Position.X = 508.000000000000000000
+      Size.Width = 48.000000000000000000
+      Size.Height = 40.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = 'donetoolbutton'
+      OnClick = btnSaveClick
+    end
+    object btnBack: TSpeedButton
+      Align = Left
+      Size.Width = 48.000000000000000000
+      Size.Height = 40.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = 'backtoolbutton'
+      OnClick = btnBackClick
+    end
   end
   object Layout1: TLayout
     Align = Client
@@ -57,7 +74,7 @@ object AddChildFrame: TAddChildFrame
             TextSettings.Font.StyleExt = {00070000000000000004000000}
             TextSettings.FontColor = claSlategray
             TextSettings.HorzAlign = Trailing
-            Text = 'Son'
+            Text = 'Male'
             TabOrder = 2
           end
           object Label2: TLabel
@@ -71,7 +88,7 @@ object AddChildFrame: TAddChildFrame
             TextSettings.Font.Size = 11.000000000000000000
             TextSettings.Font.StyleExt = {00070000000000000004000000}
             TextSettings.FontColor = claSlategray
-            Text = 'Daughter'
+            Text = 'Female'
             TabOrder = 1
           end
         end
@@ -97,7 +114,7 @@ object AddChildFrame: TAddChildFrame
             Text = 'First name'
             TabOrder = 2
           end
-          object Edit1: TEdit
+          object FirstName: TEdit
             Touch.InteractiveGestures = [LongTap, DoubleTap]
             Align = Client
             TabOrder = 3
@@ -135,7 +152,7 @@ object AddChildFrame: TAddChildFrame
             Text = 'Last name'
             TabOrder = 2
           end
-          object Edit3: TEdit
+          object LastName: TEdit
             Touch.InteractiveGestures = [LongTap, DoubleTap]
             Align = Client
             TabOrder = 3
@@ -173,7 +190,7 @@ object AddChildFrame: TAddChildFrame
             Text = 'Middle name'
             TabOrder = 2
           end
-          object Edit2: TEdit
+          object MiddleName: TEdit
             Touch.InteractiveGestures = [LongTap, DoubleTap]
             Align = Client
             TabOrder = 3
@@ -759,6 +776,8 @@ object AddChildFrame: TAddChildFrame
         StyleLookup = ''
         TabOrder = 0
         Text = 'Born'
+        ExplicitSize.cx = 43.000000000000000000
+        ExplicitSize.cy = 25.000000000000000000
         object VertScrollBox1: TVertScrollBox
           Align = Client
           Margins.Left = 5.000000000000000000
@@ -873,7 +892,7 @@ object AddChildFrame: TAddChildFrame
             end
             object dateDeath: TDateEdit
               Date = 44589.000000000000000000
-              DateFormatKind = Long
+              Format = 'yyyy '#1075'.'
               Align = Client
               Margins.Top = 5.000000000000000000
               Margins.Right = 5.000000000000000000
@@ -983,7 +1002,7 @@ object AddChildFrame: TAddChildFrame
               Text = 'Maiden name'
               TabOrder = 2
             end
-            object Edit5: TEdit
+            object MaidenName: TEdit
               Touch.InteractiveGestures = [LongTap, DoubleTap]
               Align = Client
               TabOrder = 3
@@ -1093,6 +1112,21 @@ object AddChildFrame: TAddChildFrame
         StyleLookup = ''
         TabOrder = 0
         Text = 'Work'
+        ExplicitSize.cx = 45.000000000000000000
+        ExplicitSize.cy = 25.000000000000000000
+        object VertScrollBox2: TVertScrollBox
+          Align = Client
+          Margins.Left = 5.000000000000000000
+          Margins.Top = 5.000000000000000000
+          Margins.Right = 5.000000000000000000
+          Margins.Bottom = 5.000000000000000000
+          Size.Width = 546.000000000000000000
+          Size.Height = 587.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 0
+          Viewport.Width = 546.000000000000000000
+          Viewport.Height = 587.000000000000000000
+        end
       end
       object tabAducation: TTabItem
         CustomIcon = <
@@ -1107,6 +1141,21 @@ object AddChildFrame: TAddChildFrame
         StyleLookup = ''
         TabOrder = 0
         Text = 'Aducation'
+        ExplicitSize.cx = 69.000000000000000000
+        ExplicitSize.cy = 25.000000000000000000
+        object VertScrollBox3: TVertScrollBox
+          Align = Client
+          Margins.Left = 5.000000000000000000
+          Margins.Top = 5.000000000000000000
+          Margins.Right = 5.000000000000000000
+          Margins.Bottom = 5.000000000000000000
+          Size.Width = 546.000000000000000000
+          Size.Height = 587.000000000000000000
+          Size.PlatformDefault = False
+          TabOrder = 0
+          Viewport.Width = 546.000000000000000000
+          Viewport.Height = 587.000000000000000000
+        end
       end
       object tabOther: TTabItem
         CustomIcon = <
@@ -1121,6 +1170,8 @@ object AddChildFrame: TAddChildFrame
         StyleLookup = ''
         TabOrder = 0
         Text = 'Other information'
+        ExplicitSize.cx = 107.000000000000000000
+        ExplicitSize.cy = 25.000000000000000000
         object memoOther: TMemo
           Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
           DataDetectorTypes = []
@@ -1138,5 +1189,20 @@ object AddChildFrame: TAddChildFrame
         end
       end
     end
+  end
+  object btnDeleteChild: TSpeedButton
+    Align = Bottom
+    StyledSettings = [Family, Size]
+    Position.Y = 780.000000000000000000
+    Size.Width = 556.000000000000000000
+    Size.Height = 48.000000000000000000
+    Size.PlatformDefault = False
+    StyleLookup = 'cornerbuttonstyle'
+    Text = 'Delete'
+    TextSettings.Font.StyleExt = {00070000000000000004000000}
+    TextSettings.FontColor = claSlategray
+    TintColor = claCrimson
+    Visible = False
+    OnClick = btnDeleteChildClick
   end
 end

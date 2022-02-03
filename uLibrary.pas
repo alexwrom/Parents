@@ -7,8 +7,11 @@ uses FireDAC.Comp.Client;
 //type
 
   // ----------------------------------Constants-----------------------------------------
-//const
-
+const
+   ttEdit = 0;
+   ttNewChild = 1;
+   ttNewBS = 2;
+   ttNewParent = 3;
 var
   tmpQuery: TFDQuery;
   // -------------------------------------- Procedures ----------------------------------

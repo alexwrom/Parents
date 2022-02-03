@@ -10,10 +10,10 @@
     <Transaction>1899.12.30 00:00:00.000.030,D:\Delphi\Android\Parents\Unit1.fmx=D:\Delphi\Android\Parents\uTreeFrame.fmx</Transaction>
     <Transaction>1899.12.30 00:00:00.000.041,=D:\Delphi\Android\Parents\Unit1.pas</Transaction>
     <Transaction>1899.12.30 00:00:00.000.539,=D:\Delphi\Android\Parents\Unit1.pas</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.030,D:\Delphi\Android\Parents\Unit1.pas=D:\Delphi\Android\Parents\uTreeFrame.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.387,D:\Delphi\Android\Parents\Unit1.pas=D:\Delphi\Android\Parents\uAddChildFrame.pas</Transaction>
     <Transaction>1899.12.30 00:00:00.000.081,=C:\Users\Alex\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
     <Transaction>1899.12.30 00:00:00.000.666,C:\Users\Alex\Documents\Embarcadero\Studio\Projects\Unit1.pas=D:\Delphi\Android\Parents\Parents.pas</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.387,D:\Delphi\Android\Parents\Unit1.pas=D:\Delphi\Android\Parents\uAddChildFrame.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.030,D:\Delphi\Android\Parents\Unit1.pas=D:\Delphi\Android\Parents\uTreeFrame.pas</Transaction>
   </Transactions>
 	<ActiveMobileDevice>
 		<NoProfile Android64=""/>
