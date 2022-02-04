@@ -64,6 +64,10 @@ type
     btnBack: TSpeedButton;
     VertScrollBox2: TVertScrollBox;
     VertScrollBox3: TVertScrollBox;
+    Label14: TLabel;
+    Label15: TLabel;
+    btnAddFather: TCornerButton;
+    AddMother: TCornerButton;
     procedure swDeadSwitch(Sender: TObject);
     procedure swSexSwitch(Sender: TObject);
     procedure btnSaveClick(Sender: TObject);
@@ -84,7 +88,7 @@ uses uMain, uTreeFrame;
 procedure TAddChildFrame.btnBackClick(Sender: TObject);
 begin
   MainForm.controlMain.ActiveTab := MainForm.tabTree;
-  MainForm.TreeFrame.spGeneration.OnChange(nil);
+  MainForm.TreeFrame.GenericChange(nil);
   FreeAndNil(MainForm.TreeFrame.AddChildFrame);
 end;
 

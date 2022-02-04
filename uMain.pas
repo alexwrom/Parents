@@ -11,7 +11,8 @@ uses
   FireDAC.Stan.ExprFuncs, FireDAC.Phys.SQLiteWrapper.Stat, FireDAC.FMXUI.Wait,
   Data.DB, FireDAC.Comp.Client,IoUtils,uTreeFrame, FireDAC.Stan.Param,
   FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt, FireDAC.Comp.DataSet,
-  FireDAC.Comp.UI, FMX.TabControl, System.ImageList, FMX.ImgList;
+  FireDAC.Comp.UI, FMX.TabControl, System.ImageList, FMX.ImgList,
+  FMX.Controls.Presentation, FMX.StdCtrls;
 
 type
   TMainForm = class(TForm)

@@ -12,6 +12,7 @@ object TreeFrame: TTreeFrame
     Size.Width = 448.000000000000000000
     Size.Height = 656.000000000000000000
     Size.PlatformDefault = False
+    StyleLookup = 'cornerbuttonstyle'
     TabOrder = 0
     OnClick = PanoClick
     DisableMouseWheel = True
@@ -33,7 +34,7 @@ object TreeFrame: TTreeFrame
     Size.Height = 48.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 1
-    object spGeneration: TSpinBox
+    object Generic: TSpinBox
       Touch.InteractiveGestures = [LongTap, DoubleTap]
       TabOrder = 0
       Cursor = crIBeam
@@ -41,7 +42,7 @@ object TreeFrame: TTreeFrame
       Value = 2.000000000000000000
       Position.X = 8.000000000000000000
       Position.Y = 8.000000000000000000
-      OnChange = spGenerationChange
+      OnChange = GenericChange
     end
     object btnPrint: TSpeedButton
       Align = Right
@@ -55,11 +56,11 @@ object TreeFrame: TTreeFrame
     end
   end
   object selRect: TLayout
-    Align = VertCenter
-    Position.Y = 366.000000000000000000
-    Size.Width = 448.000000000000000000
+    Align = Center
+    Size.Width = 276.000000000000000000
     Size.Height = 100.000000000000000000
     Size.PlatformDefault = False
+    Visible = False
     TabOrder = 3
     object Rectangle: TRectangle
       Align = Contents
@@ -67,7 +68,7 @@ object TreeFrame: TTreeFrame
       Margins.Left = 20.000000000000000000
       Margins.Top = 30.000000000000000000
       Margins.Right = 20.000000000000000000
-      Size.Width = 408.000000000000000000
+      Size.Width = 236.000000000000000000
       Size.Height = 70.000000000000000000
       Size.PlatformDefault = False
       Stroke.Kind = None
@@ -84,7 +85,7 @@ object TreeFrame: TTreeFrame
         Align = Client
         Fill.Color = claSlategray
         Margins.Top = 10.000000000000000000
-        Size.Width = 408.000000000000000000
+        Size.Width = 236.000000000000000000
         Size.Height = 60.000000000000000000
         Size.PlatformDefault = False
         Stroke.Kind = None
@@ -92,6 +93,7 @@ object TreeFrame: TTreeFrame
         YRadius = 10.000000000000000000
         object Rectangle2: TRectangle
           Align = Bottom
+          ClipChildren = True
           Fill.Color = claYellowgreen
           Margins.Left = 5.000000000000000000
           Margins.Top = 5.000000000000000000
@@ -99,7 +101,7 @@ object TreeFrame: TTreeFrame
           Margins.Bottom = 5.000000000000000000
           Position.X = 5.000000000000000000
           Position.Y = 5.000000000000000000
-          Size.Width = 398.000000000000000000
+          Size.Width = 226.000000000000000000
           Size.Height = 50.000000000000000000
           Size.PlatformDefault = False
           Stroke.Kind = None
@@ -1265,11 +1267,11 @@ object TreeFrame: TTreeFrame
         end
         object HorzScrollBox1: THorzScrollBox
           Align = Client
-          Size.Width = 408.000000000000000000
+          Size.Width = 236.000000000000000000
           Size.Height = 0.000000000000000000
           Size.PlatformDefault = False
           TabOrder = 3
-          Viewport.Width = 408.000000000000000000
+          Viewport.Width = 236.000000000000000000
           Viewport.Height = 0.000000000000000000
           object layBS: TLayout
             Align = Left
@@ -1283,7 +1285,7 @@ object TreeFrame: TTreeFrame
     end
     object Layout8: TLayout
       Align = Top
-      Size.Width = 448.000000000000000000
+      Size.Width = 276.000000000000000000
       Size.Height = 40.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 1

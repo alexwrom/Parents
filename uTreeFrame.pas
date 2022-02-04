@@ -8,19 +8,20 @@ uses
   FMX.Layouts, FMX.Objects, FMX.Controls.Presentation, Generics.Collections, Math,
   FMX.Edit, FMX.EditBox, FMX.SpinBox, Data.DB, System.ImageList, FMX.ImgList,
   FMX.ExtCtrls, FMX.Effects, FMX.Memo.Types, FMX.ScrollBox, FMX.Memo,
-  FMX.Gestures, uAddChildFrame;
+  FMX.Gestures, uAddChildFrame, FireDAC.Comp.Client;
 
 type
   rChild = record
     child: integer;
     father: integer;
     mother: integer;
+    Ignore: integer;
   end;
 
   TTreeFrame = class(TFrame)
     Pano: TScrollBox;
     Layout2: TLayout;
-    spGeneration: TSpinBox;
+    Generic: TSpinBox;
     btnPrint: TSpeedButton;
     layPano: TLayout;
     Rectangle: TRectangle;
@@ -50,7 +51,7 @@ type
     Layout8: TLayout;
     GestureManager1: TGestureManager;
     ToolBar1: TToolBar;
-    procedure spGenerationChange(Sender: TObject);
+    procedure GenericChange(Sender: TObject);
     procedure btnPrintClick(Sender: TObject);
     procedure layPanoClick(Sender: TObject);
     procedure PanoClick(Sender: TObject);
@@ -65,12 +66,13 @@ type
     Stack: TList<rChild>;
     firstChild: integer;
     FLastDistance: integer;
-    procedure CreatePeople(parentObj: TFMXObject; ID: integer; childName, childSex: string; photo: TField; photoExist: integer; IsDead: integer; posParent, posChild: TPosition; BS: integer = 0);
+    procedure CreatePeople(parentObj: TFMXObject; ID, Ignore: integer; childName, childSex: string; photo: TField; photoExist: integer; IsDead: integer; posParent, posChild: TPosition; BS: integer = 0);
     procedure GetChildParents(childID: integer);
     function GetPosChild(ID: integer): TPosition;
     procedure GetBrothersSisters(childID: integer);
     function GetPosition(ID: integer; childSex: string): TPosition;
     procedure btnPeopleSel(Sender: TObject);
+    procedure btnExpand(Sender: TObject);
     { Private declarations }
   public
     { Public declarations }
@@ -96,29 +98,29 @@ begin
   if (selRect.Hint = 'm') then
   begin
     AddChildFrame.layFather.Tag := selRect.Tag;
-    CreatePeople(AddChildFrame.layFather, selRect.Tag, tmpQuery.FieldByName('name').AsString, tmpQuery.FieldByName('sex').AsString, tmpQuery.FieldByName('photo'), tmpQuery.FieldByName('photoExist').AsInteger, tmpQuery.FieldByName('IsDead').AsInteger,
-      TPosition.Create(TPointF.Create(0, 0)), TPosition.Create(TPointF.Create(0, 0)), 0);
+    CreatePeople(AddChildFrame.layFather, selRect.Tag, tmpQuery.FieldByName('ignore').AsInteger, tmpQuery.FieldByName('name').AsString, tmpQuery.FieldByName('sex').AsString, tmpQuery.FieldByName('photo'), tmpQuery.FieldByName('photoExist').AsInteger,
+      tmpQuery.FieldByName('IsDead').AsInteger, TPosition.Create(TPointF.Create(0, 0)), TPosition.Create(TPointF.Create(0, 0)), 0);
     ExeActive('select * from tree_data where child_id = ' + tmpQuery.FieldByName('married').AsString);
 
     if tmpQuery.RecordCount > 0 then
     begin
       AddChildFrame.layMother.Tag := tmpQuery.FieldByName('child_Id').AsInteger;
-      CreatePeople(AddChildFrame.layMother, tmpQuery.FieldByName('child_Id').AsInteger, tmpQuery.FieldByName('name').AsString, tmpQuery.FieldByName('sex').AsString, tmpQuery.FieldByName('photo'), tmpQuery.FieldByName('photoExist').AsInteger,
-        tmpQuery.FieldByName('IsDead').AsInteger, TPosition.Create(TPointF.Create(0, 0)), TPosition.Create(TPointF.Create(0, 0)), 0);
+      CreatePeople(AddChildFrame.layMother, tmpQuery.FieldByName('child_Id').AsInteger, tmpQuery.FieldByName('ignore').AsInteger, tmpQuery.FieldByName('name').AsString, tmpQuery.FieldByName('sex').AsString, tmpQuery.FieldByName('photo'),
+        tmpQuery.FieldByName('photoExist').AsInteger, tmpQuery.FieldByName('IsDead').AsInteger, TPosition.Create(TPointF.Create(0, 0)), TPosition.Create(TPointF.Create(0, 0)), 0);
     end;
   end
   else
   begin
     AddChildFrame.layMother.Tag := selRect.Tag;
-    CreatePeople(AddChildFrame.layMother, selRect.Tag, tmpQuery.FieldByName('name').AsString, tmpQuery.FieldByName('sex').AsString, tmpQuery.FieldByName('photo'), tmpQuery.FieldByName('photoExist').AsInteger, tmpQuery.FieldByName('IsDead').AsInteger,
-      TPosition.Create(TPointF.Create(0, 0)), TPosition.Create(TPointF.Create(0, 0)), 0);
+    CreatePeople(AddChildFrame.layMother, selRect.Tag, tmpQuery.FieldByName('ignore').AsInteger, tmpQuery.FieldByName('name').AsString, tmpQuery.FieldByName('sex').AsString, tmpQuery.FieldByName('photo'), tmpQuery.FieldByName('photoExist').AsInteger,
+      tmpQuery.FieldByName('IsDead').AsInteger, TPosition.Create(TPointF.Create(0, 0)), TPosition.Create(TPointF.Create(0, 0)), 0);
     ExeActive('select * from tree_data where child_id = ' + tmpQuery.FieldByName('married').AsString);
 
     if tmpQuery.RecordCount > 0 then
     begin
       AddChildFrame.layFather.Tag := tmpQuery.FieldByName('child_Id').AsInteger;
-      CreatePeople(AddChildFrame.layFather, tmpQuery.FieldByName('child_Id').AsInteger, tmpQuery.FieldByName('name').AsString, tmpQuery.FieldByName('sex').AsString, tmpQuery.FieldByName('photo'), tmpQuery.FieldByName('photoExist').AsInteger,
-        tmpQuery.FieldByName('IsDead').AsInteger, TPosition.Create(TPointF.Create(0, 0)), TPosition.Create(TPointF.Create(0, 0)), 0);
+      CreatePeople(AddChildFrame.layFather, tmpQuery.FieldByName('child_Id').AsInteger, tmpQuery.FieldByName('ignore').AsInteger, tmpQuery.FieldByName('name').AsString, tmpQuery.FieldByName('sex').AsString, tmpQuery.FieldByName('photo'),
+        tmpQuery.FieldByName('photoExist').AsInteger, tmpQuery.FieldByName('IsDead').AsInteger, TPosition.Create(TPointF.Create(0, 0)), TPosition.Create(TPointF.Create(0, 0)), 0);
     end;
   end
 end;
@@ -129,6 +131,7 @@ begin
   selRect.Tag := 0;
 end;
 
+// Сделать скриншот древа
 procedure TTreeFrame.btnPrintClick(Sender: TObject);
 begin
   layPano.MakeScreenshot.SaveToFile(ExtractFilePath(paramstr(0)) + '\Screen.bmp');
@@ -138,13 +141,14 @@ constructor TTreeFrame.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   Stack := TList<rChild>.Create;
-  spGenerationChange(nil);
+  GenericChange(nil);
   Pano.ScrollTo(Pano.Width, Pano.Height);
   Pano.RecalcSize;
   FLastDistance := 0;
 
 end;
 
+// Получить родителей ребенка
 procedure TTreeFrame.GetChildParents(childID: integer);
 var
   tmpChild: rChild;
@@ -158,6 +162,7 @@ begin
       if RecordCount > 0 then
       begin
         tmpChild.child := childID;
+        tmpChild.Ignore := FieldByName('ignore').AsInteger;
         if FieldByName('father_id').AsInteger > 0 then
           tmpChild.father := FieldByName('father_id').AsInteger
         else
@@ -173,8 +178,9 @@ begin
           Stack.Add(tmpChild);
           posParent := GetPosition(tmpChild.child, FieldByName('sex').AsString);
           posChild := GetPosChild(tmpChild.child);
-          if ((Round(posParent.Y) < Round(250 * spGeneration.Value)) and (posParent.Y > 0)) or (tmpChild.child = firstChild) then
-            CreatePeople(layPano, tmpChild.child, FieldByName('name').AsString, FieldByName('sex').AsString, FieldByName('photo'), FieldByName('photoExist').AsInteger, FieldByName('IsDead').AsInteger, posParent, posChild);
+          if ((Round(posParent.Y) < Round(250 * Generic.Value)) and (posParent.Y > 0)) or (tmpChild.child = firstChild) then
+            CreatePeople(layPano, tmpChild.child, FieldByName('ignore').AsInteger, FieldByName('name').AsString, FieldByName('sex').AsString, FieldByName('photo'), FieldByName('photoExist').AsInteger, FieldByName('IsDead').AsInteger, posParent,
+              posChild);
 
         end;
       end;
@@ -183,6 +189,7 @@ begin
   end;
 end;
 
+// Получить братьев\сестер
 procedure TTreeFrame.GetBrothersSisters(childID: integer);
 var
   tmpChild: rChild;
@@ -199,15 +206,10 @@ begin
         begin
           tmpChild.child := FieldByName('bs').AsInteger;
 
-          if Stack.IndexOf(tmpChild) < 0 then
-          begin
-
-            Stack.Add(tmpChild);
-            posParent := GetPosition(tmpChild.child, FieldByName('sex').AsString);
-            posParent.X := posParent.X + 170 * i;
-            posChild := GetPosChild(tmpChild.child);
-            CreatePeople(layPano, tmpChild.child, FieldByName('name').AsString, FieldByName('sex').AsString, FieldByName('photo'), FieldByName('photoExist').AsInteger, FieldByName('IsDead').AsInteger, posParent, posChild, i);
-          end;
+          posParent := GetPosition(tmpChild.child, FieldByName('sex').AsString);
+          posParent.X := posParent.X + 170 * i;
+          posChild := GetPosChild(tmpChild.child);
+          CreatePeople(layPano, tmpChild.child, 1, FieldByName('name').AsString, FieldByName('sex').AsString, FieldByName('photo'), FieldByName('photoExist').AsInteger, FieldByName('IsDead').AsInteger, posParent, posChild, i);
         end;
         inc(i);
         Next;
@@ -215,6 +217,21 @@ begin
   end;
 end;
 
+// Развернуть\свернуть список
+procedure TTreeFrame.btnExpand(Sender: TObject);
+begin
+  if (Sender as TSpeedButton).StyleLookup = 'arrowuptoolbutton' then
+  begin
+    ExeSql('update tree set ignore = 1 where child_id = ' + (Sender as TSpeedButton).Tag.ToString);
+  end
+  else
+  begin
+    ExeSql('update tree set ignore = 0 where child_id = ' + (Sender as TSpeedButton).Tag.ToString);
+  end;
+  GenericChange(nil);
+end;
+
+// Добавить родителя
 procedure TTreeFrame.btnParentClick(Sender: TObject);
 begin
   AddChildFrame := TAddChildFrame.Create(MainForm.tabAdd);
@@ -223,6 +240,7 @@ begin
   MainForm.controlMain.ActiveTab := MainForm.tabAdd;
 end;
 
+// Отображаем окно братьев\сестер
 procedure TTreeFrame.btnPeopleSel(Sender: TObject);
 var
   i, k: integer;
@@ -267,10 +285,17 @@ begin
           if tmpQuery.RecordCount = 0 then
           begin
             selRect.Height := 100;
+            selRect.Width := 275;
           end
           else
           begin
             selRect.Height := 320;
+            if tmpQuery.RecordCount * 150 > Self.Width - 50 then
+              selRect.Width := Self.Width - 50
+            else if tmpQuery.RecordCount = 1 then
+              selRect.Width := 275
+            else
+              selRect.Width := tmpQuery.RecordCount * 150 + 40;
           end;
 
           selRect.BringToFront;
@@ -283,10 +308,10 @@ begin
                 childBS := FieldByName('bs').AsInteger;
                 posChild := TPosition.Create(TPointF.Create(0, 0));
                 if tmpQuery.RecordCount = 1 then
-                  posParent := TPosition.Create(TPointF.Create(30, 0))
+                  posParent := TPosition.Create(TPointF.Create(45, 0))
                 else
                   posParent := TPosition.Create(TPointF.Create((k - 1) * 150, 0));
-                CreatePeople(layBS, childBS, FieldByName('name').AsString, FieldByName('sex').AsString, FieldByName('photo'), FieldByName('photoExist').AsInteger, FieldByName('IsDead').AsInteger, posParent, posChild, k);
+                CreatePeople(layBS, childBS, 1, FieldByName('name').AsString, FieldByName('sex').AsString, FieldByName('photo'), FieldByName('photoExist').AsInteger, FieldByName('IsDead').AsInteger, posParent, posChild, k);
               end;
               inc(k);
               Next;
@@ -300,12 +325,12 @@ begin
 
 end;
 
-procedure TTreeFrame.CreatePeople(parentObj: TFMXObject; ID: integer; childName, childSex: string; photo: TField; photoExist: integer; IsDead: integer; posParent, posChild: TPosition; BS: integer = 0);
+// Механизм сосдания карточки
+procedure TTreeFrame.CreatePeople(parentObj: TFMXObject; ID, Ignore: integer; childName, childSex: string; photo: TField; photoExist: integer; IsDead: integer; posParent, posChild: TPosition; BS: integer = 0);
 var
   tmpLay: TLayout;
   tmpCircle: TCircle;
   tmpName: TLabel;
-  // tmpLine: TLine;
   tmpLine: TRectangle;
 
   ChildPosition: TPosition;
@@ -319,20 +344,35 @@ begin
     with tmpLine do
     begin
       Parent := layPano;
-      Width := ABS(posChild.X - posParent.X);
+
+      if Ignore = 1 then
+        Width := 75
+      else
+        Width := ABS(posChild.X - posParent.X);
+
       Height := 220;
       if childSex = 'm' then
       begin
         Corners := [TCorner.BottomRight];
         Sides := [TSide.Right, TSide.Bottom];
-        Position.X := posParent.X + 77;
+
+        if Ignore = 1 then
+          Position.X := posChild.X + 2
+        else
+          Position.X := posParent.X + 77;
+
         Position.Y := posChild.Y + 135;
       end
       else
       begin
         Corners := [TCorner.BottomLeft];
         Sides := [TSide.Left, TSide.Bottom];
-        Position.X := posChild.X + 74;
+
+        if Ignore = 1 then
+          Position.X := posChild.X + 74
+        else
+          Position.X := posChild.X + 74;
+
         Position.Y := posChild.Y + 135;
       end;
       CornerType := TCornerType.Bevel;
@@ -346,13 +386,23 @@ begin
     end;
   end;
 
+  // Главный слой
   tmpLay := TLayout.Create(parentObj);
   with tmpLay do
   begin
     Parent := parentObj;
     Height := 200;
     Width := 150;
-    Position := posParent;
+
+    if (Ignore = 1) and (BS = 0) then
+      if childSex = 'm' then
+        Position.X := posChild.X - 75
+      else
+        Position.X := posChild.X + 75
+    else
+      Position.X := posParent.X;
+
+    Position.Y := posParent.Y;
     Padding.Top := 5;
     Padding.Bottom := 5;
     Padding.Left := 5;
@@ -362,10 +412,30 @@ begin
     ShowHint := false;
     if layPano.Width < tmpLay.Position.X + tmpLay.Width then
       layPano.Width := tmpLay.Position.X + tmpLay.Width
-    else if layPano.Width < Power(2, spGeneration.Value - 1) * 150 then
-      layPano.Width := Power(2, spGeneration.Value - 1) * 150;
+    else if layPano.Width < Power(2, Generic.Value - 1) * 150 then
+      layPano.Width := Power(2, Generic.Value - 1) * 150;
   end;
 
+  // Кнопка расширения дерева
+  if BS = 0 then
+    with TSpeedButton.Create(tmpLay) do
+    begin
+      Parent := tmpLay;
+      Position.X := 75 - 24;
+      Position.Y := 200;
+
+      if Ignore = 0 then
+        StyleLookup := 'arrowuptoolbutton'
+      else
+        StyleLookup := 'arrowdowntoolbutton';
+      Width := 48;
+      Height := 48;
+      Text := '+';
+      Tag := ID;
+      OnClick := btnExpand;
+    end;
+
+  // Фон пола
   tmpSex := TRectangle.Create(tmpLay);
   with tmpSex do
   begin
@@ -384,6 +454,7 @@ begin
       Fill.Color := TAlphaColors.Pink;
   end;
 
+  // Тень
   with TShadowEffect.Create(tmpSex) do
   begin
     Parent := tmpLay;
@@ -469,6 +540,7 @@ begin
 
 end;
 
+// Скролл
 procedure TTreeFrame.FrameMouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: integer; var Handled: Boolean);
 begin
 
@@ -487,7 +559,7 @@ var
   childID: integer;
   maxWidth: double;
 begin
-  maxWidth := Power(2, spGeneration.Value - 1) * 150;
+  maxWidth := Power(2, Generic.Value - 1) * 150;
   tmpPoint := TPosition.Create(TPointF.Create(0, 0));
   for i := 0 to Stack.Count - 1 do
     if (Stack[i].father = ID) or (Stack[i].mother = ID) then
@@ -511,19 +583,20 @@ begin
   result := tmpPoint;
 end;
 
+// Получение позиции
 function TTreeFrame.GetPosition(ID: integer; childSex: string): TPosition;
 var
   tmpPoint: TPosition;
   maxWidth: double;
   nextCount: integer;
 begin
-  maxWidth := Power(2, spGeneration.Value - 1) * 150;
+  maxWidth := Power(2, Generic.Value - 1) * 150;
   tmpPoint := GetPosChild(ID);
   if NOT((tmpPoint.X = 0) and (tmpPoint.Y = 0)) then
   begin
     tmpPoint.Y := tmpPoint.Y + (250);
 
-    nextCount := Trunc(Power(2, spGeneration.Value - 1) / Power(2, (tmpPoint.Y / (250))) - 1);
+    nextCount := Trunc(Power(2, Generic.Value - 1) / Power(2, (tmpPoint.Y / (250))) - 1);
     if childSex = 'm' then
       tmpPoint.X := tmpPoint.X - (75) - (maxWidth / Power(2, (tmpPoint.Y / (250))) - (150)) / 2
     else
@@ -532,6 +605,13 @@ begin
   end
   else
     tmpPoint.X := tmpPoint.X + maxWidth / 2 - (75);
+
+  { if Ignore = 1 then
+    if childSex = 'm' then
+    tmpPoint.X := tmpPoint.X - 75
+    else
+    tmpPoint.X := tmpPoint.X + 75; }
+
   result := tmpPoint;
 end;
 
@@ -567,6 +647,7 @@ begin
 
 end;
 
+// Добавления брата\сестры
 procedure TTreeFrame.btnAddBSClick(Sender: TObject);
 var
   father, mother: string;
@@ -583,8 +664,8 @@ begin
   if tmpQuery.RecordCount > 0 then
   begin
     AddChildFrame.layFather.Tag := tmpQuery.FieldByName('child_Id').AsInteger;
-    CreatePeople(AddChildFrame.layFather, selRect.Tag, tmpQuery.FieldByName('name').AsString, tmpQuery.FieldByName('sex').AsString, tmpQuery.FieldByName('photo'), tmpQuery.FieldByName('photoExist').AsInteger, tmpQuery.FieldByName('IsDead').AsInteger,
-      TPosition.Create(TPointF.Create(0, 0)), TPosition.Create(TPointF.Create(0, 0)), 0);
+    CreatePeople(AddChildFrame.layFather, selRect.Tag, tmpQuery.FieldByName('ignore').AsInteger, tmpQuery.FieldByName('name').AsString, tmpQuery.FieldByName('sex').AsString, tmpQuery.FieldByName('photo'), tmpQuery.FieldByName('photoExist').AsInteger,
+      tmpQuery.FieldByName('IsDead').AsInteger, TPosition.Create(TPointF.Create(0, 0)), TPosition.Create(TPointF.Create(0, 0)), 0);
   end;
 
   ExeActive('select * from tree_data where child_id = ' + mother);
@@ -592,13 +673,13 @@ begin
   if tmpQuery.RecordCount > 0 then
   begin
     AddChildFrame.layMother.Tag := tmpQuery.FieldByName('child_Id').AsInteger;
-    CreatePeople(AddChildFrame.layMother, tmpQuery.FieldByName('child_Id').AsInteger, tmpQuery.FieldByName('name').AsString, tmpQuery.FieldByName('sex').AsString, tmpQuery.FieldByName('photo'), tmpQuery.FieldByName('photoExist').AsInteger,
-      tmpQuery.FieldByName('IsDead').AsInteger, TPosition.Create(TPointF.Create(0, 0)), TPosition.Create(TPointF.Create(0, 0)), 0);
+    CreatePeople(AddChildFrame.layMother, tmpQuery.FieldByName('child_Id').AsInteger, tmpQuery.FieldByName('ignore').AsInteger, tmpQuery.FieldByName('name').AsString, tmpQuery.FieldByName('sex').AsString, tmpQuery.FieldByName('photo'),
+      tmpQuery.FieldByName('photoExist').AsInteger, tmpQuery.FieldByName('IsDead').AsInteger, TPosition.Create(TPointF.Create(0, 0)), TPosition.Create(TPointF.Create(0, 0)), 0);
   end;
-
 
 end;
 
+// Редактирование\просмотр
 procedure TTreeFrame.btnInfoClick(Sender: TObject);
 var
   father, mother: string;
@@ -633,8 +714,8 @@ begin
   if tmpQuery.RecordCount > 0 then
   begin
     AddChildFrame.layFather.Tag := tmpQuery.FieldByName('child_Id').AsInteger;
-    CreatePeople(AddChildFrame.layFather, selRect.Tag, tmpQuery.FieldByName('name').AsString, tmpQuery.FieldByName('sex').AsString, tmpQuery.FieldByName('photo'), tmpQuery.FieldByName('photoExist').AsInteger, tmpQuery.FieldByName('IsDead').AsInteger,
-      TPosition.Create(TPointF.Create(0, 0)), TPosition.Create(TPointF.Create(0, 0)), 0);
+    CreatePeople(AddChildFrame.layFather, selRect.Tag, tmpQuery.FieldByName('ignore').AsInteger, tmpQuery.FieldByName('name').AsString, tmpQuery.FieldByName('sex').AsString, tmpQuery.FieldByName('photo'), tmpQuery.FieldByName('photoExist').AsInteger,
+      tmpQuery.FieldByName('IsDead').AsInteger, TPosition.Create(TPointF.Create(0, 0)), TPosition.Create(TPointF.Create(0, 0)), 0);
   end;
 
   ExeActive('select * from tree_data where child_id = ' + mother);
@@ -642,13 +723,14 @@ begin
   if tmpQuery.RecordCount > 0 then
   begin
     AddChildFrame.layMother.Tag := tmpQuery.FieldByName('child_Id').AsInteger;
-    CreatePeople(AddChildFrame.layMother, tmpQuery.FieldByName('child_Id').AsInteger, tmpQuery.FieldByName('name').AsString, tmpQuery.FieldByName('sex').AsString, tmpQuery.FieldByName('photo'), tmpQuery.FieldByName('photoExist').AsInteger,
-      tmpQuery.FieldByName('IsDead').AsInteger, TPosition.Create(TPointF.Create(0, 0)), TPosition.Create(TPointF.Create(0, 0)), 0);
+    CreatePeople(AddChildFrame.layMother, tmpQuery.FieldByName('child_Id').AsInteger, tmpQuery.FieldByName('ignore').AsInteger, tmpQuery.FieldByName('name').AsString, tmpQuery.FieldByName('sex').AsString, tmpQuery.FieldByName('photo'),
+      tmpQuery.FieldByName('photoExist').AsInteger, tmpQuery.FieldByName('IsDead').AsInteger, TPosition.Create(TPointF.Create(0, 0)), TPosition.Create(TPointF.Create(0, 0)), 0);
   end;
 
 end;
 
-procedure TTreeFrame.spGenerationChange(Sender: TObject);
+// Генерация древа
+procedure TTreeFrame.GenericChange(Sender: TObject);
 var
   child: rChild;
 
@@ -659,9 +741,9 @@ var
 begin
   selRect.Visible := false;
   firstChild := 17;
-  Stack.Clear;
-  layPano.Width := Power(2, spGeneration.Value - 1) * 150;
-  layPano.Height := spGeneration.Value * 250;
+  Stack.clear;
+  layPano.Width := Power(2, Generic.Value - 1) * 150;
+  layPano.Height := Generic.Value * 250;
 
   k := -1;
   for i := 0 to layPano.ControlsCount - 1 do
@@ -692,7 +774,8 @@ begin
   while (i < Stack.Count) do
   begin
     startChild := Stack[i].child;
-    if startChild > 0 then
+
+    if (startChild > 0) and (Stack[i].Ignore = 0) then
     begin
       GetChildParents(startChild);
       if Stack[i].father > 0 then

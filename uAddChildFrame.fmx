@@ -1065,6 +1065,39 @@ object AddChildFrame: TAddChildFrame
                 Size.Height = 200.000000000000000000
                 Size.PlatformDefault = False
                 TabOrder = 1
+                object Label14: TLabel
+                  Align = Top
+                  StyledSettings = []
+                  Margins.Right = 10.000000000000000000
+                  Size.Width = 140.000000000000000000
+                  Size.Height = 23.000000000000000000
+                  Size.PlatformDefault = False
+                  TextSettings.Font.Family = 'Roboto'
+                  TextSettings.Font.Size = 11.000000000000000000
+                  TextSettings.Font.StyleExt = {00070000000000000004000000}
+                  TextSettings.FontColor = claSlategray
+                  TextSettings.HorzAlign = Center
+                  Text = 'Father'
+                  TabOrder = 2
+                end
+                object btnAddFather: TCornerButton
+                  Align = Client
+                  StyledSettings = [Family, Style]
+                  Margins.Left = 10.000000000000000000
+                  Margins.Top = 10.000000000000000000
+                  Margins.Right = 10.000000000000000000
+                  Margins.Bottom = 10.000000000000000000
+                  Sides = [Top, Left, Bottom, Right]
+                  Size.Width = 130.000000000000000000
+                  Size.Height = 157.000000000000000000
+                  Size.PlatformDefault = False
+                  TabOrder = 1
+                  Text = '+'
+                  TextSettings.Font.Size = 100.000000000000000000
+                  TextSettings.FontColor = claSkyblue
+                  XRadius = 5.000000000000000000
+                  YRadius = 5.000000000000000000
+                end
               end
               object layMother: TLayout
                 Align = Left
@@ -1078,6 +1111,39 @@ object AddChildFrame: TAddChildFrame
                 Size.Height = 200.000000000000000000
                 Size.PlatformDefault = False
                 TabOrder = 0
+                object Label15: TLabel
+                  Align = Top
+                  StyledSettings = []
+                  Margins.Right = 10.000000000000000000
+                  Size.Width = 140.000000000000000000
+                  Size.Height = 23.000000000000000000
+                  Size.PlatformDefault = False
+                  TextSettings.Font.Family = 'Roboto'
+                  TextSettings.Font.Size = 11.000000000000000000
+                  TextSettings.Font.StyleExt = {00070000000000000004000000}
+                  TextSettings.FontColor = claSlategray
+                  TextSettings.HorzAlign = Center
+                  Text = 'Mother'
+                  TabOrder = 2
+                end
+                object AddMother: TCornerButton
+                  Align = Client
+                  StyledSettings = [Family, Style]
+                  Margins.Left = 10.000000000000000000
+                  Margins.Top = 10.000000000000000000
+                  Margins.Right = 10.000000000000000000
+                  Margins.Bottom = 10.000000000000000000
+                  Sides = [Top, Left, Bottom, Right]
+                  Size.Width = 130.000000000000000000
+                  Size.Height = 157.000000000000000000
+                  Size.PlatformDefault = False
+                  TabOrder = 1
+                  Text = '+'
+                  TextSettings.Font.Size = 100.000000000000000000
+                  TextSettings.FontColor = claPink
+                  XRadius = 5.000000000000000000
+                  YRadius = 5.000000000000000000
+                end
               end
             end
           end
