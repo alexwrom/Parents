@@ -40,13 +40,13 @@ object AddChildFrame: TAddChildFrame
       TabOrder = 0
       object Layout3: TLayout
         Align = Client
-        Size.Width = 407.000000000000000000
+        Size.Width = 376.000000000000000000
         Size.Height = 166.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 0
         object Layout4: TLayout
           Align = Top
-          Size.Width = 407.000000000000000000
+          Size.Width = 376.000000000000000000
           Size.Height = 40.000000000000000000
           Size.PlatformDefault = False
           TabOrder = 0
@@ -57,7 +57,7 @@ object AddChildFrame: TAddChildFrame
             Margins.Top = 5.000000000000000000
             Margins.Right = 5.000000000000000000
             Margins.Bottom = 5.000000000000000000
-            Size.Width = 235.000000000000000000
+            Size.Width = 204.000000000000000000
             Size.Height = 30.000000000000000000
             Size.PlatformDefault = False
             TabOrder = 0
@@ -80,7 +80,7 @@ object AddChildFrame: TAddChildFrame
           object Label2: TLabel
             Align = Right
             StyledSettings = []
-            Position.X = 326.000000000000000000
+            Position.X = 295.000000000000000000
             Size.Width = 81.000000000000000000
             Size.Height = 40.000000000000000000
             Size.PlatformDefault = False
@@ -95,7 +95,7 @@ object AddChildFrame: TAddChildFrame
         object Layout5: TLayout
           Align = Top
           Position.Y = 40.000000000000000000
-          Size.Width = 407.000000000000000000
+          Size.Width = 376.000000000000000000
           Size.Height = 40.000000000000000000
           Size.PlatformDefault = False
           TabOrder = 3
@@ -124,7 +124,7 @@ object AddChildFrame: TAddChildFrame
             Margins.Top = 5.000000000000000000
             Margins.Right = 5.000000000000000000
             Margins.Bottom = 5.000000000000000000
-            Size.Width = 311.000000000000000000
+            Size.Width = 280.000000000000000000
             Size.Height = 30.000000000000000000
             Size.PlatformDefault = False
             StyledSettings = [Family]
@@ -133,7 +133,7 @@ object AddChildFrame: TAddChildFrame
         object Layout6: TLayout
           Align = Top
           Position.Y = 120.000000000000000000
-          Size.Width = 407.000000000000000000
+          Size.Width = 376.000000000000000000
           Size.Height = 40.000000000000000000
           Size.PlatformDefault = False
           TabOrder = 2
@@ -162,7 +162,7 @@ object AddChildFrame: TAddChildFrame
             Margins.Top = 5.000000000000000000
             Margins.Right = 5.000000000000000000
             Margins.Bottom = 5.000000000000000000
-            Size.Width = 311.000000000000000000
+            Size.Width = 280.000000000000000000
             Size.Height = 30.000000000000000000
             Size.PlatformDefault = False
             StyledSettings = [Family]
@@ -171,7 +171,7 @@ object AddChildFrame: TAddChildFrame
         object Layout7: TLayout
           Align = Top
           Position.Y = 80.000000000000000000
-          Size.Width = 407.000000000000000000
+          Size.Width = 376.000000000000000000
           Size.Height = 40.000000000000000000
           Size.PlatformDefault = False
           TabOrder = 1
@@ -200,7 +200,7 @@ object AddChildFrame: TAddChildFrame
             Margins.Top = 5.000000000000000000
             Margins.Right = 5.000000000000000000
             Margins.Bottom = 5.000000000000000000
-            Size.Width = 311.000000000000000000
+            Size.Width = 280.000000000000000000
             Size.Height = 30.000000000000000000
             Size.PlatformDefault = False
             StyledSettings = [Family]
@@ -732,11 +732,11 @@ object AddChildFrame: TAddChildFrame
         Margins.Left = 10.000000000000000000
         Margins.Right = 10.000000000000000000
         Position.X = 10.000000000000000000
-        Size.Width = 129.000000000000000000
+        Size.Width = 160.000000000000000000
         Size.Height = 166.000000000000000000
         Size.PlatformDefault = False
         Stroke.Color = claSlategray
-        Stroke.Thickness = 3.000000000000000000
+        Stroke.Thickness = 5.000000000000000000
         object btnChangePhoto: TSpeedButton
           Align = Center
           Size.Width = 129.000000000000000000
@@ -1055,6 +1055,7 @@ object AddChildFrame: TAddChildFrame
                 end>
               object layFather: TLayout
                 Align = Right
+                ClipChildren = True
                 Margins.Left = 10.000000000000000000
                 Margins.Top = 10.000000000000000000
                 Margins.Right = 10.000000000000000000
@@ -1101,6 +1102,7 @@ object AddChildFrame: TAddChildFrame
               end
               object layMother: TLayout
                 Align = Left
+                ClipChildren = True
                 Margins.Left = 10.000000000000000000
                 Margins.Top = 10.000000000000000000
                 Margins.Right = 10.000000000000000000

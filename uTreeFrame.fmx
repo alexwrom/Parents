@@ -12,7 +12,6 @@ object TreeFrame: TTreeFrame
     Size.Width = 448.000000000000000000
     Size.Height = 656.000000000000000000
     Size.PlatformDefault = False
-    StyleLookup = 'cornerbuttonstyle'
     TabOrder = 0
     OnClick = PanoClick
     DisableMouseWheel = True
@@ -20,8 +19,8 @@ object TreeFrame: TTreeFrame
     Viewport.Height = 656.000000000000000000
     object layPano: TLayout
       Align = Center
-      Size.Width = 50.000000000000000000
-      Size.Height = 50.000000000000000000
+      Size.Width = 272.000000000000000000
+      Size.Height = 420.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 0
       OnClick = layPanoClick

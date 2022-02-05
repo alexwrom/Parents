@@ -336,6 +336,7 @@ var
   ChildPosition: TPosition;
   tmpBack: TRectangle;
   tmpSex: TRectangle;
+  tmpExpand: TCircle;
 begin
 
   if (BS = 0) and (ID <> firstChild) then
@@ -351,6 +352,8 @@ begin
         Width := ABS(posChild.X - posParent.X);
 
       Height := 220;
+      Position.Y := posChild.Y + 135;
+
       if childSex = 'm' then
       begin
         Corners := [TCorner.BottomRight];
@@ -360,8 +363,6 @@ begin
           Position.X := posChild.X + 2
         else
           Position.X := posParent.X + 77;
-
-        Position.Y := posChild.Y + 135;
       end
       else
       begin
@@ -372,8 +373,6 @@ begin
           Position.X := posChild.X + 74
         else
           Position.X := posChild.X + 74;
-
-        Position.Y := posChild.Y + 135;
       end;
       CornerType := TCornerType.Bevel;
       XRadius := 15;
@@ -393,12 +392,17 @@ begin
     Parent := parentObj;
     Height := 200;
     Width := 150;
+    if (ID <> firstChild) then
+    begin
+      if (Ignore = 1) and (BS = 0) then
 
-    if (Ignore = 1) and (BS = 0) then
-      if childSex = 'm' then
-        Position.X := posChild.X - 75
+        if childSex = 'm' then
+          Position.X := posChild.X - 75
+        else
+          Position.X := posChild.X + 75
       else
-        Position.X := posChild.X + 75
+        Position.X := posParent.X;
+    end
     else
       Position.X := posParent.X;
 
@@ -418,22 +422,36 @@ begin
 
   // Кнопка расширения дерева
   if BS = 0 then
-    with TSpeedButton.Create(tmpLay) do
+  begin
+    tmpExpand := TCircle.Create(tmpLay);
+    with tmpExpand do
     begin
       Parent := tmpLay;
       Position.X := 75 - 24;
       Position.Y := 200;
+      Width := 48;
+      Height := 48;
+      ClipChildren := true;
+      Stroke.Thickness := 6;
+      Stroke.Color := TAlphaColors.Slategray;
+    end;
+
+    with TSpeedButton.Create(tmpExpand) do
+    begin
+      Parent := tmpExpand;
+      Align := TAlignLayout.Client;
 
       if Ignore = 0 then
         StyleLookup := 'arrowuptoolbutton'
       else
         StyleLookup := 'arrowdowntoolbutton';
-      Width := 48;
-      Height := 48;
+
       Text := '+';
       Tag := ID;
       OnClick := btnExpand;
     end;
+
+  end;
 
   // Фон пола
   tmpSex := TRectangle.Create(tmpLay);
@@ -588,7 +606,6 @@ function TTreeFrame.GetPosition(ID: integer; childSex: string): TPosition;
 var
   tmpPoint: TPosition;
   maxWidth: double;
-  nextCount: integer;
 begin
   maxWidth := Power(2, Generic.Value - 1) * 150;
   tmpPoint := GetPosChild(ID);
@@ -596,7 +613,6 @@ begin
   begin
     tmpPoint.Y := tmpPoint.Y + (250);
 
-    nextCount := Trunc(Power(2, Generic.Value - 1) / Power(2, (tmpPoint.Y / (250))) - 1);
     if childSex = 'm' then
       tmpPoint.X := tmpPoint.X - (75) - (maxWidth / Power(2, (tmpPoint.Y / (250))) - (150)) / 2
     else
@@ -605,12 +621,6 @@ begin
   end
   else
     tmpPoint.X := tmpPoint.X + maxWidth / 2 - (75);
-
-  { if Ignore = 1 then
-    if childSex = 'm' then
-    tmpPoint.X := tmpPoint.X - 75
-    else
-    tmpPoint.X := tmpPoint.X + 75; }
 
   result := tmpPoint;
 end;
@@ -714,7 +724,7 @@ begin
   if tmpQuery.RecordCount > 0 then
   begin
     AddChildFrame.layFather.Tag := tmpQuery.FieldByName('child_Id').AsInteger;
-    CreatePeople(AddChildFrame.layFather, selRect.Tag, tmpQuery.FieldByName('ignore').AsInteger, tmpQuery.FieldByName('name').AsString, tmpQuery.FieldByName('sex').AsString, tmpQuery.FieldByName('photo'), tmpQuery.FieldByName('photoExist').AsInteger,
+    CreatePeople(AddChildFrame.layFather, selRect.Tag, 0, tmpQuery.FieldByName('name').AsString, tmpQuery.FieldByName('sex').AsString, tmpQuery.FieldByName('photo'), tmpQuery.FieldByName('photoExist').AsInteger,
       tmpQuery.FieldByName('IsDead').AsInteger, TPosition.Create(TPointF.Create(0, 0)), TPosition.Create(TPointF.Create(0, 0)), 0);
   end;
 
@@ -723,8 +733,8 @@ begin
   if tmpQuery.RecordCount > 0 then
   begin
     AddChildFrame.layMother.Tag := tmpQuery.FieldByName('child_Id').AsInteger;
-    CreatePeople(AddChildFrame.layMother, tmpQuery.FieldByName('child_Id').AsInteger, tmpQuery.FieldByName('ignore').AsInteger, tmpQuery.FieldByName('name').AsString, tmpQuery.FieldByName('sex').AsString, tmpQuery.FieldByName('photo'),
-      tmpQuery.FieldByName('photoExist').AsInteger, tmpQuery.FieldByName('IsDead').AsInteger, TPosition.Create(TPointF.Create(0, 0)), TPosition.Create(TPointF.Create(0, 0)), 0);
+    CreatePeople(AddChildFrame.layMother, tmpQuery.FieldByName('child_Id').AsInteger, 0, tmpQuery.FieldByName('name').AsString, tmpQuery.FieldByName('sex').AsString, tmpQuery.FieldByName('photo'), tmpQuery.FieldByName('photoExist').AsInteger,
+      tmpQuery.FieldByName('IsDead').AsInteger, TPosition.Create(TPointF.Create(0, 0)), TPosition.Create(TPointF.Create(0, 0)), 0);
   end;
 
 end;

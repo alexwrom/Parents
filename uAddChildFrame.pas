@@ -109,7 +109,7 @@ begin
   case Self.Hint.ToInteger of
     ttNewChild:
       begin
-        ExeSQL(Format('insert into tree (father_id,mother_id,sex,firstname,lastname,middlename,old_fam,born_day,born_month,born_year,dead_year) values (%d,%d,''%s'',''%s'',''%s'',''%s'',%s,%s,%s,%s,%s)',
+        ExeSQL(Format('insert into tree (father_id,mother_id,sex,firstname,lastname,middlename,old_fam,born_day,born_month,born_year,dead_year,generation) values (%d,%d,''%s'',''%s'',''%s'',''%s'',%s,%s,%s,%s,%s,%d)',
           [layFather.Tag, layMother.Tag, Sex, FirstName.Text, LastName.Text, MiddleName.Text, IfThen(MaidenName.Text = '', 'NULL', '''' + MaidenName.Text + ''''), dd, mm, yyyy, yyD]));
         ExeActive('select photo from tree where child_id = (select max(child_id) from tree)');
         tmpQuery.Edit;
@@ -118,7 +118,7 @@ begin
       end;
     ttNewBS:
       begin
-        ExeSQL(Format('insert into tree (father_id,mother_id,sex,firstname,lastname,middlename,old_fam,born_day,born_month,born_year,dead_year) values (%d,%d,''%s'',''%s'',''%s'',''%s'',%s,%s,%s,%s,%s)',
+        ExeSQL(Format('insert into tree (father_id,mother_id,sex,firstname,lastname,middlename,old_fam,born_day,born_month,born_year,dead_year,generation) values (%d,%d,''%s'',''%s'',''%s'',''%s'',%s,%s,%s,%s,%s,%d)',
           [layFather.Tag, layMother.Tag, Sex, FirstName.Text, LastName.Text, MiddleName.Text, IfThen(MaidenName.Text = '', 'NULL', '''' + MaidenName.Text + ''''), dd, mm, yyyy, yyD]));
         ExeActive('select photo from tree where child_id = (select max(child_id) from tree)');
         tmpQuery.Edit;
