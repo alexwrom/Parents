@@ -9,10 +9,10 @@ uses
   FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async,
   FireDAC.Phys, FireDAC.Phys.SQLite, FireDAC.Phys.SQLiteDef,
   FireDAC.Stan.ExprFuncs, FireDAC.Phys.SQLiteWrapper.Stat, FireDAC.FMXUI.Wait,
-  Data.DB, FireDAC.Comp.Client,IoUtils,uTreeFrame, FireDAC.Stan.Param,
+  Data.DB, FireDAC.Comp.Client, IoUtils, uTreeFrame, FireDAC.Stan.Param,
   FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt, FireDAC.Comp.DataSet,
   FireDAC.Comp.UI, FMX.TabControl, System.ImageList, FMX.ImgList,
-  FMX.Controls.Presentation, FMX.StdCtrls;
+  FMX.Controls.Presentation, FMX.StdCtrls, uAddChildFrame, uFrameAdd;
 
 type
   TMainForm = class(TForm)
@@ -28,7 +28,8 @@ type
   public
     { Public declarations }
     TreeFrame: TTreeFrame;
-
+    addFrame: TFrameAdd;
+    AddChildFrame: TAddChildFrame;
   end;
 
 var

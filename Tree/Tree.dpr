@@ -6,7 +6,8 @@ uses
   uMain in 'uMain.pas' {MainForm},
   uTreeFrame in 'uTreeFrame.pas' {TreeFrame: TFrame},
   uLibrary in 'uLibrary.pas',
-  uAddChildFrame in 'uAddChildFrame.pas' {AddChildFrame: TFrame};
+  uAddChildFrame in 'uAddChildFrame.pas' {AddChildFrame: TFrame},
+  uFrameAdd in 'uFrameAdd.pas' {FrameAdd: TFrame};
 
 {$R *.res}
 

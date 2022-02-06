@@ -6,7 +6,8 @@ uses
   System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
   FMX.Types, FMX.Graphics, FMX.Controls, FMX.Forms, FMX.Dialogs, FMX.StdCtrls,
   FMX.Memo.Types, FMX.DateTimeCtrls, FMX.Layouts, FMX.ScrollBox, FMX.Memo,
-  FMX.TabControl, FMX.Edit, FMX.Objects, FMX.Controls.Presentation, uLibrary, StrUtils, FMX.DialogService;
+  FMX.TabControl, FMX.Edit, FMX.Objects, FMX.Controls.Presentation, uLibrary, StrUtils, FMX.DialogService,
+  FMX.ListBox, Math;
 
 type
   TAddChildFrame = class(TFrame)
@@ -37,10 +38,8 @@ type
     Layout9: TLayout;
     VertScrollBox1: TVertScrollBox;
     Label6: TLabel;
-    dateBirth: TDateEdit;
     layDeath: TLayout;
     Label7: TLabel;
-    dateDeath: TDateEdit;
     Layout10: TLayout;
     Layout11: TLayout;
     swDead: TSwitch;
@@ -68,15 +67,29 @@ type
     Label15: TLabel;
     btnAddFather: TCornerButton;
     AddMother: TCornerButton;
+    Layout12: TLayout;
+    Label16: TLabel;
+    Layout13: TLayout;
+    BornDay: TComboBox;
+    Label20: TLabel;
+    BornMonth: TComboBox;
+    Label17: TLabel;
+    BornYear: TComboBox;
+    Label18: TLabel;
+    DeadYear: TComboBox;
     procedure swDeadSwitch(Sender: TObject);
     procedure swSexSwitch(Sender: TObject);
     procedure btnSaveClick(Sender: TObject);
     procedure btnBackClick(Sender: TObject);
     procedure btnDeleteChildClick(Sender: TObject);
   private
+    function FindPeople(peopleID: integer): rPeople;
+    procedure GenericDayMonthYear;
+
     { Private declarations }
   public
     { Public declarations }
+    procedure Load;
     constructor Create(AOwner: TComponent);
   end;
 
@@ -88,28 +101,34 @@ uses uMain, uTreeFrame;
 procedure TAddChildFrame.btnBackClick(Sender: TObject);
 begin
   MainForm.controlMain.ActiveTab := MainForm.tabTree;
-  FreeAndNil(MainForm.TreeFrame.AddChildFrame);
+
+  MainForm.TreeFrame.Close;
+
+  MainForm.TreeFrame := TTreeFrame.Create(nil);
+  MainForm.TreeFrame.Parent := MainForm.tabTree;
+
+  MainForm.AddChildFrame.Parent := nil;
+  FreeAndNil(MainForm.AddChildFrame);
+
 end;
 
 procedure TAddChildFrame.btnSaveClick(Sender: TObject);
 var
   Sex: string;
-  dd, mm, yyyy, yyD: string;
+  yyD: string;
 begin
   Sex := IfThen(swSex.IsChecked, 'f', 'm');
-  DateTimeToString(dd, 'dd', dateBirth.Date);
-  DateTimeToString(mm, 'mm', dateBirth.Date);
-  DateTimeToString(yyyy, 'yyyy', dateBirth.Date);
+
   if swDead.IsChecked then
-    DateTimeToString(yyD, 'yyyy', dateDeath.Date)
+    yyD := '''' + DeadYear.Selected.Text + ''''
   else
     yyD := 'NULL';
 
   case Self.Hint.ToInteger of
     ttNewChild:
       begin
-        ExeSQL(Format('insert into tree (father_id,mother_id,sex,firstname,lastname,middlename,old_fam,born_day,born_month,born_year,dead_year,generation) values (%d,%d,''%s'',''%s'',''%s'',''%s'',%s,%s,%s,%s,%s,%d)',
-          [layFather.Tag, layMother.Tag, Sex, FirstName.Text, LastName.Text, MiddleName.Text, IfThen(MaidenName.Text = '', 'NULL', '''' + MaidenName.Text + ''''), dd, mm, yyyy, yyD]));
+        ExeSQL(Format('insert into tree (father_id,mother_id,sex,firstname,lastname,middlename,old_fam,born_day,born_month,born_year,dead_year,generation) values (%d,%d,''%s'',''%s'',''%s'',''%s'',%s,%s,%s,%s,''%s'',%s)',
+          [layFather.Tag, layMother.Tag, Sex, FirstName.Text, LastName.Text, MiddleName.Text, IfThen(MaidenName.Text = '', 'NULL', '''' + MaidenName.Text + ''''), BornDay.Selected.Text, BornMonth.Selected.Text, BornYear.Selected.Text, yyD]));
         ExeActive('select photo from tree where child_id = (select max(child_id) from tree)');
         tmpQuery.Edit;
         tmpQuery.FieldByName('photo').Assign(Photo.Fill.Bitmap.Bitmap);
@@ -117,8 +136,8 @@ begin
       end;
     ttNewBS:
       begin
-        ExeSQL(Format('insert into tree (father_id,mother_id,sex,firstname,lastname,middlename,old_fam,born_day,born_month,born_year,dead_year,generation) values (%d,%d,''%s'',''%s'',''%s'',''%s'',%s,%s,%s,%s,%s,%d)',
-          [layFather.Tag, layMother.Tag, Sex, FirstName.Text, LastName.Text, MiddleName.Text, IfThen(MaidenName.Text = '', 'NULL', '''' + MaidenName.Text + ''''), dd, mm, yyyy, yyD]));
+        ExeSQL(Format('insert into tree (father_id,mother_id,sex,firstname,lastname,middlename,old_fam,born_day,born_month,born_year,dead_year,generation) values (%d,%d,''%s'',''%s'',''%s'',''%s'',%s,%s,%s,%s,''%s'',%s)',
+          [layFather.Tag, layMother.Tag, Sex, FirstName.Text, LastName.Text, MiddleName.Text, IfThen(MaidenName.Text = '', 'NULL', '''' + MaidenName.Text + ''''), BornDay.Selected.Text, BornMonth.Selected.Text, BornYear.Selected.Text, yyD]));
         ExeActive('select photo from tree where child_id = (select max(child_id) from tree)');
         tmpQuery.Edit;
         tmpQuery.FieldByName('photo').Assign(Photo.Fill.Bitmap.Bitmap);
@@ -126,9 +145,10 @@ begin
       end;
     ttEdit:
       begin
-        ExeSQL(Format('update tree set father_id = %d,mother_id = %d,firstname = ''%s'',lastname = ''%s'',middlename = ''%s'',old_fam = %s,born_day = %s,born_month = %s,born_year = %s,dead_year = %s where child_id = %d ',
-          [layFather.Tag, layMother.Tag, FirstName.Text, LastName.Text, MiddleName.Text, IfThen(MaidenName.Text = '', 'NULL', '''' + MaidenName.Text + ''''), dd, mm, yyyy, yyD, Self.Tag]));
-        ExeActive('select photo from tree where child_id = ' + Self.Tag.ToString);
+        ExeSQL(Format('update tree set father_id = %d,mother_id = %d,firstname = ''%s'',lastname = ''%s'',middlename = ''%s'',old_fam = %s,born_day = %s,born_month = %s,born_year = ''%s'',dead_year = %s where child_id = %d ',
+          [layFather.Tag, layMother.Tag, FirstName.Text, LastName.Text, MiddleName.Text, IfThen(MaidenName.Text = '', 'NULL', '''' + MaidenName.Text + ''''), BornDay.Selected.Text, BornMonth.Selected.Text, BornYear.Selected.Text, yyD,
+          MainForm.TreeFrame.listPeople[Self.Tag].child]));
+        ExeActive('select photo from tree where child_id = ' + MainForm.TreeFrame.listPeople[Self.Tag].child.ToString);
         tmpQuery.Edit;
         tmpQuery.FieldByName('photo').Assign(Photo.Fill.Bitmap.Bitmap);
         tmpQuery.Post;
@@ -139,8 +159,160 @@ begin
 end;
 
 constructor TAddChildFrame.Create(AOwner: TComponent);
+
 begin
   inherited Create(AOwner);
+
+  GenericDayMonthYear;
+
+end;
+
+procedure TAddChildFrame.Load;
+var
+  father, mother: integer;
+  Parent: rPeople;
+begin
+  case Self.Hint.ToInteger of
+    ttNewChild:
+      begin
+
+      end;
+    ttNewBS:
+      begin
+
+      end;
+    ttEdit:
+      begin
+        btnDeleteChild.Visible := true;
+        MainForm.controlMain.ActiveTab := MainForm.tabAdd;
+        ExeActive('select * from tree where child_id = ' + MainForm.TreeFrame.listPeople[Self.Tag].child.ToString);
+        father := tmpQuery.FieldByName('father_id').AsInteger;
+        mother := tmpQuery.FieldByName('mother_id').AsInteger;
+
+        swSex.IsChecked := MainForm.TreeFrame.listPeople[Self.Tag].Sex = 'f';
+        swSex.Enabled := false;
+
+        Photo.Fill.Bitmap.Bitmap.Assign(tmpQuery.FieldByName('photo'));
+
+        FirstName.Text := tmpQuery.FieldByName('firstname').AsString;
+        LastName.Text := tmpQuery.FieldByName('lastname').AsString;
+        MiddleName.Text := tmpQuery.FieldByName('middlename').AsString;
+        MaidenName.Text := tmpQuery.FieldByName('old_fam').AsString;
+
+        BornDay.ItemIndex := tmpQuery.FieldByName('born_day').AsInteger;
+        BornMonth.ItemIndex := tmpQuery.FieldByName('born_month').AsInteger;
+        BornYear.ItemIndex := BornYear.Items.IndexOf(tmpQuery.FieldByName('born_year').AsString);
+
+        swDead.IsChecked := tmpQuery.FieldByName('dead_year').AsString <> '';
+        if tmpQuery.FieldByName('dead_year').AsString <> '' then
+          DeadYear.ItemIndex := DeadYear.Items.IndexOf(tmpQuery.FieldByName('dead_year').AsString);
+
+        Parent := FindPeople(father);
+        if Parent.child > 0 then
+        begin
+          MainForm.AddChildFrame.layFather.Tag := Parent.child;
+          MainForm.TreeFrame.CreatePeople(MainForm.AddChildFrame.layFather, Parent, Other);
+        end;
+
+        Parent := FindPeople(mother);
+
+        if Parent.child > 0 then
+        begin
+          MainForm.AddChildFrame.layMother.Tag := Parent.child;
+          MainForm.TreeFrame.CreatePeople(MainForm.AddChildFrame.layMother, Parent, Other);
+        end;
+      end;
+  end;
+end;
+
+procedure TAddChildFrame.GenericDayMonthYear;
+var
+  I: integer;
+  year: string;
+begin
+  // Days
+  for I := 0 to 31 do
+  begin
+    with TListBoxItem.Create(nil) do
+    begin
+      Parent := BornDay;
+      StyledSettings := [];
+      Font.Family := 'Roboto';
+      Font.Size := 11;
+      FontColor := TAlphaColors.Slategray;
+
+      if I = 0 then
+        Text := '?'
+      else
+        Text := I.ToString;
+    end;
+  end;
+
+  // Month
+  for I := 0 to 12 do
+  begin
+    with TListBoxItem.Create(nil) do
+    begin
+      Parent := BornMonth;
+      Parent := BornMonth;
+      StyledSettings := [];
+      Font.Family := 'Roboto';
+      Font.Size := 11;
+      FontColor := TAlphaColors.Slategray;
+
+      if I = 0 then
+        Text := '?'
+      else
+        Text := I.ToString;
+    end;
+  end;
+
+  // Year
+  for I := -1 to 200 do
+  begin
+    DateTimeToString(year, 'yyyy', NOW());
+
+    with TListBoxItem.Create(nil) do
+    begin
+      Parent := BornYear;
+      StyledSettings := [];
+      Font.Family := 'Roboto';
+      Font.Size := 11;
+      FontColor := TAlphaColors.Slategray;
+
+      if I = -1 then
+        Text := '?'
+      else
+        Text := (year.ToInteger - I).ToString;
+    end;
+
+    with TListBoxItem.Create(nil) do
+    begin
+      Parent := DeadYear;
+      StyledSettings := [];
+      Font.Family := 'Roboto';
+      Font.Size := 11;
+      FontColor := TAlphaColors.Slategray;
+
+      if I = -1 then
+        Text := '?'
+      else
+        Text := (year.ToInteger - I).ToString;
+    end;
+  end;
+end;
+
+function TAddChildFrame.FindPeople(peopleID: integer): rPeople;
+var
+  I: integer;
+begin
+  for I := 0 to MainForm.TreeFrame.listPeople.Count - 1 do
+    if (MainForm.TreeFrame.listPeople[I].child = peopleID) then
+    begin
+      result := MainForm.TreeFrame.listPeople[I];
+      exit;
+    end;
+  result := MainForm.TreeFrame.listPeople[Self.Tag];
 end;
 
 procedure TAddChildFrame.btnDeleteChildClick(Sender: TObject);

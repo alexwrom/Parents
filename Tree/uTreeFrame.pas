@@ -8,63 +8,21 @@ uses
   FMX.Layouts, FMX.Objects, FMX.Controls.Presentation, Generics.Collections, Math,
   FMX.Edit, FMX.EditBox, FMX.SpinBox, Data.DB, System.ImageList, FMX.ImgList,
   FMX.ExtCtrls, FMX.Effects, FMX.Memo.Types, FMX.ScrollBox, FMX.Memo,
-  FMX.Gestures, uAddChildFrame, FireDAC.Comp.Client, StrUtils;
+  FMX.Gestures, FireDAC.Comp.Client, StrUtils, uFrameAdd;
 
 type
-  rPeople = record
-    child: integer;
-    father: integer;
-    mother: integer;
-    married: integer;
-    sex: string;
-    gen: integer;
-    photo: TBitmap;
-    photo_exist: integer;
-    is_active: boolean;
-    name: string;
-    born: string;
-    dead: string;
-    is_dead: integer;
-    layParents: TLayout;
-    layChildren: TLayout;
-    layBS: TLayout;
-  end;
 
   TTreeFrame = class(TFrame)
     Pano: TScrollBox;
-    Layout2: TLayout;
     btnPrint: TSpeedButton;
-    Rectangle: TRectangle;
-    ShadowEffect1: TShadowEffect;
-    Rectangle1: TRectangle;
-    Rectangle2: TRectangle;
-    Layout1: TLayout;
-    GridPanelLayout1: TGridPanelLayout;
-    Layout3: TLayout;
-    Circle1: TCircle;
-    btnParent: TSpeedButton;
-    Layout4: TLayout;
-    Circle2: TCircle;
-    btnAddBS: TSpeedButton;
-    Layout5: TLayout;
-    Circle3: TCircle;
-    btnAddChild: TSpeedButton;
-    Layout6: TLayout;
-    Circle4: TCircle;
-    btnInfo: TSpeedButton;
-    layBS: TLayout;
-    HorzScrollBox1: THorzScrollBox;
-    Circle5: TCircle;
-    btnCloseSelRect: TSpeedButton;
-    selRect: TLayout;
-    Layout7: TLayout;
-    Layout8: TLayout;
     ToolBar1: TToolBar;
+    Symbols: TImageList;
+    ImageTree: TImage;
     procedure btnPrintClick(Sender: TObject);
 
   private
     peopleActive: rPeople;
-    listPeople: TList<rPeople>;
+
     listChildren: TList<rPeople>;
     listBrS: TList<rPeople>;
     listOther: TList<rPeople>;
@@ -72,18 +30,23 @@ type
     peopleMarried: rPeople;
     MaxGeneration: integer;
     layActive: TLayout;
+
     procedure LoadPeople;
     procedure GenericTree;
-    function CreatePeople(vPeople: rPeople; typePeople: tTypePeople): TLayout;
+
     function GetPosition(vPeople: rPeople): TPosition;
     function GetPosChild(ChildID: integer): TPosition;
     function GetChildID(ParentID: integer): integer;
+    procedure btnPeopleSel(Sender: TObject);
 
     { Private declarations }
   public
     { Public declarations }
-    AddChildFrame: TAddChildFrame;
+    listPeople: TList<rPeople>;
+    procedure Close;
+    function CreatePeople(parentObj: tFMXObject; vPeople: rPeople; typePeople: tTypePeople): TLayout;
     constructor Create(AOwner: TComponent);
+
   end;
 
 implementation
@@ -96,6 +59,31 @@ uses uMain;
 procedure TTreeFrame.btnPrintClick(Sender: TObject);
 begin
   Pano.MakeScreenshot.SaveToFile(ExtractFilePath(paramstr(0)) + '\Screen.bmp');
+end;
+
+procedure TTreeFrame.Close;
+
+begin
+  FreeAndNil(listPeople);
+  FreeAndNil(listChildren);
+  FreeAndNil(listBrS);
+  FreeAndNil(listOther);
+  FreeAndNil(listPeopleInTree);
+
+  while Pano.Content.ChildrenCount - 1 > 0 do
+  begin
+    if Pano.Content.Children[0] is TLayout then
+      while (Pano.Content.Children[0] as TLayout).ChildrenCount - 1 > 0 do
+      begin
+         (Pano.Content.Children[0] as TLayout).Children[0].Parent := nil;
+         FreeAndNil((Pano.Content.Children[0] as TLayout).Children[0]);
+      end;
+    Pano.Content.Children[0].Parent := nil;
+    FreeAndNil(Pano.Content.Children[0]);
+  end;
+
+  MainForm.TreeFrame.Parent := nil;
+  FreeAndNil(MainForm.TreeFrame);
 end;
 
 constructor TTreeFrame.Create(AOwner: TComponent);
@@ -117,12 +105,12 @@ var
   I: integer;
   ChildID: integer;
 begin
-  MaxGeneration := 5;
+  MaxGeneration := 6;
   for I := 0 to listOther.Count - 1 do
   begin
     ChildID := GetChildID(listOther[I].child);
     if (ChildID > 0) and (listOther[I].gen < MaxGeneration + peopleActive.gen) then
-      CreatePeople(listOther[I], Other);
+      CreatePeople(Pano, listOther[I], Other);
   end;
 
 end;
@@ -172,7 +160,7 @@ begin
   for I := 0 to Pano.Content.ChildrenCount - 1 do
     if Pano.Content.Children[I] is TLayout then
     begin
-      if (Pano.Content.Children[I] as TLayout).Tag = ChildID then
+      if listPeople[(Pano.Content.Children[I] as TLayout).Tag].child = ChildID then
       begin
 
         tmpPoint.X := (Pano.Content.Children[I] as TLayout).Position.X;
@@ -218,7 +206,7 @@ begin
   listPeople.Add(tmpRecord);
   peopleActive := tmpRecord;
   layActive := TLayout.Create(nil);
-  layActive := CreatePeople(peopleActive, Active);
+  layActive := CreatePeople(Pano, peopleActive, Active);
   listPeopleInTree.Add(peopleActive);
   tmpQuery.Next;
 
@@ -251,17 +239,17 @@ begin
     if (tmpRecord.father = listPeople[0].child) or (tmpRecord.mother = listPeople[0].child) then
     begin
       listChildren.Add(tmpRecord);
-      CreatePeople(tmpRecord, child);
+      CreatePeople(Pano, tmpRecord, child);
     end
     else if (tmpRecord.father = listPeople[0].father) or (tmpRecord.mother = listPeople[0].mother) then
     begin
       listBrS.Add(tmpRecord);
-      CreatePeople(tmpRecord, BrS);
+      CreatePeople(Pano, tmpRecord, BrS);
     end
     else if (tmpRecord.child = listPeople[0].married) then
     begin
       peopleMarried := tmpRecord;
-      CreatePeople(tmpRecord, married);
+      CreatePeople(Pano, tmpRecord, married);
     end
     else
     begin
@@ -273,8 +261,28 @@ begin
 
 end;
 
+// Отображаем окно братьев\сестер
+procedure TTreeFrame.btnPeopleSel(Sender: TObject);
+var
+  peopleIndex: integer;
+begin
+
+  peopleIndex := (Sender as TSpeedButton).Tag;
+  if MainForm.addFrame <> nil then
+  begin
+    MainForm.addFrame.Parent := nil;
+    FreeAndNil(MainForm.addFrame);
+  end
+  else
+  begin
+    MainForm.addFrame := TFrameAdd.Create(nil);
+    MainForm.addFrame.Parent := Self;
+    MainForm.addFrame.Tag := peopleIndex;
+  end;
+end;
+
 // Механизм создания карточки
-function TTreeFrame.CreatePeople(vPeople: rPeople; typePeople: tTypePeople): TLayout;
+function TTreeFrame.CreatePeople(parentObj: tFMXObject; vPeople: rPeople; typePeople: tTypePeople): TLayout;
 var
   tmpCircle: TCircle;
   tmpName: TLabel;
@@ -290,164 +298,189 @@ begin
   ChildPosition := GetPosChild(GetChildID(vPeople.child));
   SelfPosition := GetPosition(vPeople);
 
-  if vPeople.child = peopleActive.child then
+  { ImageTree.Width := Power(2, MaxGeneration - 1) * 150;
+    ImageTree.Height := (MaxGeneration - 1) * 250 + 450;
+    ImageTree.Position.X :=  - ImageTree.Width / 2 + 75;
+    ImageTree.Position.Y :=  - ImageTree.Height + 450; }
+  if (parentObj = Pano) then
   begin
-    // Wife
-    tmpLine := TRectangle.Create(Pano);
-    with tmpLine do
+    if (vPeople.child = peopleActive.child) then
     begin
-      Parent := Pano;
-      Width := 250;
-      Height := 3;
-      Position.Y := 100;
-      Corners := [];
-      Sides := [TSide.Top];
-      Position.X := 75;
-      Fill.Kind := TBrushKind.None;
-      Stroke.Color := TAlphaColors.Slategray;
-      Stroke.Thickness := 3;
-      SendToBack;
-    end;
 
-    with TCircle.Create(Pano) do
-    begin
-      Parent := Pano;
-      Position.X := 200 - 24;
-      Position.Y := 100 - 24;
-      Width := 48;
-      Height := 48;
-      Stroke.Thickness := 4;
-      Stroke.Color := TAlphaColors.Slategray;
-    end;
-
-    // BrS
-    tmpLine := TRectangle.Create(Pano);
-    with tmpLine do
-    begin
-      Parent := Pano;
-      Width := 250;
-      Height := 3;
-      Position.Y := 100;
-      Corners := [];
-      Sides := [TSide.Top];
-      Position.X := -175;
-      Fill.Kind := TBrushKind.None;
-      Stroke.Color := TAlphaColors.Slategray;
-      Stroke.Thickness := 3;
-      SendToBack;
-    end;
-
-    with TCircle.Create(Pano) do
-    begin
-      Parent := Pano;
-      Position.X := -50 - 24;
-      Position.Y := 100 - 24;
-      Width := 48;
-      Height := 48;
-      Stroke.Thickness := 4;
-      Stroke.Color := TAlphaColors.Slategray;
-    end;
-
-    // Children
-    tmpLine := TRectangle.Create(Pano);
-    with tmpLine do
-    begin
-      Parent := Pano;
-      Width := 3;
-      Height := 290;
-      Position.Y := 100;
-      Corners := [];
-      Sides := [TSide.Left];
-      Position.X := 75;
-      Fill.Kind := TBrushKind.None;
-      Stroke.Color := TAlphaColors.Slategray;
-      Stroke.Thickness := 3;
-      SendToBack;
-    end;
-
-    with TCircle.Create(Pano) do
-    begin
-      Parent := Pano;
-      Position.X := 75 - 24 + 1.5;
-      Position.Y := 250 - 24;
-      Width := 48;
-      Height := 48;
-      Stroke.Thickness := 4;
-      Stroke.Color := TAlphaColors.Slategray;
-    end;
-  end
-  else
-  begin
-    tmpLine := TRectangle.Create(Pano);
-
-    with tmpLine do
-    begin
-      Parent := Pano;
-
-      Width := ABS(ChildPosition.X - SelfPosition.X);
-
-      Height := 220;
-      Position.Y := ChildPosition.Y - 135;
-
-      if vPeople.sex = 'm' then
+      // Wife
+      tmpLine := TRectangle.Create(nil);
+      with tmpLine do
       begin
-        Corners := [TCorner.TopRight];
-        Sides := [TSide.Right, TSide.Top];
-        Position.X := SelfPosition.X + 77;
-      end
-      else
-      begin
-        Corners := [TCorner.TopLeft];
-        Sides := [TSide.Left, TSide.Top];
-
-        Position.X := ChildPosition.X + 74;
+        Parent := parentObj;
+        Width := 125;
+        Height := 3;
+        Position.Y := 100;
+        Corners := [];
+        Sides := [TSide.Top];
+        Position.X := 75;
+        Fill.Kind := TBrushKind.None;
+        Stroke.Color := TAlphaColors.Slategray;
+        Stroke.Thickness := 3;
+        SendToBack;
       end;
-      CornerType := TCornerType.Round;
-      XRadius := 15;
-      YRadius := 15;
-      Fill.Kind := TBrushKind.None;
-      Stroke.Color := TAlphaColors.Slategray;
-      Stroke.Thickness := 3;
-      SendToBack;
-      Visible := true;
+
+      with TCircle.Create(nil) do
+      begin
+        Parent := parentObj;
+        Position.X := 200 - 24;
+        Position.Y := 100 - 24;
+        Fill.Kind := TBrushKind.Bitmap;
+        Fill.Bitmap.Bitmap.Assign(Symbols.Source[0].MultiResBitmap[0].Bitmap);
+        Fill.Bitmap.WrapMode := TWrapMode.TileStretch;
+        Width := 48;
+        Height := 48;
+        Stroke.Thickness := 4;
+        Stroke.Color := TAlphaColors.Slategray;
+      end;
+
+      // BrS
+      tmpLine := TRectangle.Create(nil);
+      with tmpLine do
+      begin
+        Parent := parentObj;
+        Width := 125;
+        Height := 3;
+        Position.Y := 100;
+        Corners := [];
+        Sides := [TSide.Top];
+        Position.X := -50;
+        Fill.Kind := TBrushKind.None;
+        Stroke.Color := TAlphaColors.Slategray;
+        Stroke.Thickness := 3;
+        SendToBack;
+      end;
+
+      with TCircle.Create(nil) do
+      begin
+        Parent := parentObj;
+        Position.X := -50 - 24;
+        Position.Y := 100 - 24;
+        Width := 48;
+        Height := 48;
+        Fill.Kind := TBrushKind.Bitmap;
+        Fill.Bitmap.Bitmap.Assign(Symbols.Source[1].MultiResBitmap[0].Bitmap);
+        Fill.Bitmap.WrapMode := TWrapMode.TileStretch;
+        Stroke.Thickness := 4;
+        Stroke.Color := TAlphaColors.Slategray;
+      end;
+
+      // Children
+      tmpLine := TRectangle.Create(nil);
+      with tmpLine do
+      begin
+        Parent := parentObj;
+        Width := 3;
+        Height := 145;
+        Position.Y := 100;
+        Corners := [];
+        Sides := [TSide.Left];
+        Position.X := 75;
+        Fill.Kind := TBrushKind.None;
+        Stroke.Color := TAlphaColors.Slategray;
+        Stroke.Thickness := 3;
+        SendToBack;
+      end;
+
+      with TCircle.Create(nil) do
+      begin
+        Parent := parentObj;
+        Position.X := 75 - 24 + 1.5;
+        Position.Y := 250 - 24;
+        Width := 48;
+        Height := 48;
+        Fill.Kind := TBrushKind.Bitmap;
+        Fill.Bitmap.Bitmap.Assign(Symbols.Source[2].MultiResBitmap[0].Bitmap);
+        Fill.Bitmap.WrapMode := TWrapMode.TileStretch;
+        Stroke.Thickness := 4;
+        Stroke.Color := TAlphaColors.Slategray;
+      end;
+    end
+    else
+    begin
+      tmpLine := TRectangle.Create(nil);
+
+      with tmpLine do
+      begin
+        Parent := parentObj;
+
+        Width := ABS(ChildPosition.X - SelfPosition.X);
+
+        Height := 220;
+        Position.Y := ChildPosition.Y - 135;
+
+        if vPeople.sex = 'm' then
+        begin
+          Corners := [TCorner.TopRight];
+          Sides := [TSide.Right, TSide.Top];
+          Position.X := SelfPosition.X + 77;
+        end
+        else
+        begin
+          Corners := [TCorner.TopLeft];
+          Sides := [TSide.Left, TSide.Top];
+
+          Position.X := ChildPosition.X + 74;
+        end;
+        CornerType := TCornerType.Round;
+        XRadius := 15;
+        YRadius := 15;
+        Fill.Kind := TBrushKind.None;
+        Stroke.Color := TAlphaColors.Slategray;
+        Stroke.Thickness := 3;
+        SendToBack;
+        Visible := true;
+      end;
     end;
   end;
 
   // Главный слой
-  tmpLay := TLayout.Create(Pano);
+  tmpLay := TLayout.Create(nil);
   with tmpLay do
   begin
-    Parent := Pano;
+    Parent := parentObj;
     Height := 200; // Высота карточки
     Width := 150; // Ширина карточки
-    Tag := vPeople.child;
+    Tag := listPeople.IndexOF(vPeople);
     Hint := vPeople.sex;
-    case typePeople of
-      Active:
-        begin
-          Position.X := 0;
-          Position.Y := 0;
-        end;
-      child:
-        begin
-          Position.X := layActive.Position.X + (listChildren.Count - 1) * 160;
-          Position.Y := layActive.Position.Y + 300;
-        end;
-      BrS:
-        begin
-          Position.X := layActive.Position.X + (listBrS.Count - 1) * (-160) - 250;
-          Position.Y := layActive.Position.Y;
-        end;
-      married:
-        begin
-          Position.X := layActive.Position.X + 250;
-          Position.Y := layActive.Position.Y;
-        end;
-      Other:
-        begin
-          Position := GetPosition(vPeople);
-          listPeopleInTree.Add(vPeople);
-        end;
+
+    if parentObj = Pano then
+
+      case typePeople of
+        Active:
+          begin
+            Position.X := 0;
+            Position.Y := 0;
+          end;
+        child:
+          begin
+            Position.X := layActive.Position.X + (listChildren.Count - 1) * 160;
+            Position.Y := layActive.Position.Y + 300;
+          end;
+        BrS:
+          begin
+            Position.X := layActive.Position.X + (listBrS.Count - 1) * (-160) - 250;
+            Position.Y := layActive.Position.Y;
+          end;
+        married:
+          begin
+            Position.X := layActive.Position.X + 250;
+            Position.Y := layActive.Position.Y;
+          end;
+        Other:
+          begin
+            Position := GetPosition(vPeople);
+            listPeopleInTree.Add(vPeople);
+          end;
+      end
+    else
+    begin
+      Position.X := 0;
+      Position.Y := 0;
     end;
 
     Padding.Top := 5;
@@ -493,7 +526,7 @@ begin
     end; }
 
   // Фон пола
-  tmpSex := TRectangle.Create(tmpLay);
+  tmpSex := TRectangle.Create(nil);
   with tmpSex do
   begin
     Parent := tmpLay;
@@ -512,12 +545,12 @@ begin
   end;
 
   // Тень
-  with TShadowEffect.Create(tmpLay) do
+  with TShadowEffect.Create(nil) do
   begin
     Parent := tmpLay;
   end;
 
-  tmpBack := TRectangle.Create(tmpSex);
+  tmpBack := TRectangle.Create(nil);
   with tmpBack do
   begin
     Parent := tmpSex;
@@ -534,7 +567,7 @@ begin
 
   if vPeople.is_dead = 1 then
 
-    with TLine.Create(tmpBack) do
+    with TLine.Create(nil) do
     begin
       Parent := tmpBack;
       Width := 80;
@@ -549,7 +582,8 @@ begin
       Opacity := 0.5;
     end;
 
-  tmpCircle := TCircle.Create(tmpLay);
+  // Фото
+  tmpCircle := TCircle.Create(nil);
   with tmpCircle do
   begin
     Parent := tmpLay;
@@ -569,19 +603,19 @@ begin
     Fill.Bitmap.WrapMode := TWrapMode.TileStretch;
   end;
 
-  with TSpeedButton.Create(tmpCircle) do
+  with TSpeedButton.Create(nil) do
   begin
     Parent := tmpCircle;
     Align := TAlignLayout.Client;
     StyleLookup := 'transparentcirclebuttonstyle';
-    Tag := vPeople.child;
+    Tag := listPeople.IndexOF(vPeople);
     Hint := vPeople.sex;
     ShowHint := false;
-    { if parentObj = layPano then
-      OnClick := btnPeopleSel; }
+    if parentObj = Pano then
+      OnClick := btnPeopleSel;
   end;
 
-  tmpName := TLabel.Create(tmpBack);
+  tmpName := TLabel.Create(nil);
   with tmpName do
   begin
     Parent := tmpBack;
@@ -595,6 +629,7 @@ begin
     Text := vPeople.name + #13 + vPeople.born + StrUtils.IfThen(vPeople.is_dead = 1, ' - ' + vPeople.dead);
   end;
 
+  result := tmpLay;
 end;
 
 end.

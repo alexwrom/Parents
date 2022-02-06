@@ -1,16 +1,16 @@
 object AddChildFrame: TAddChildFrame
   Align = Client
-  Size.Width = 556.000000000000000000
+  Size.Width = 486.000000000000000000
   Size.Height = 828.000000000000000000
   Size.PlatformDefault = False
   object ToolBar1: TToolBar
-    Size.Width = 556.000000000000000000
+    Size.Width = 486.000000000000000000
     Size.Height = 40.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 0
     object btnSave: TSpeedButton
       Align = Right
-      Position.X = 508.000000000000000000
+      Position.X = 438.000000000000000000
       Size.Width = 48.000000000000000000
       Size.Height = 40.000000000000000000
       Size.PlatformDefault = False
@@ -28,25 +28,25 @@ object AddChildFrame: TAddChildFrame
   end
   object Layout1: TLayout
     Align = Client
-    Size.Width = 556.000000000000000000
+    Size.Width = 486.000000000000000000
     Size.Height = 788.000000000000000000
     Size.PlatformDefault = False
     TabOrder = 1
     object Layout2: TLayout
       Align = Top
-      Size.Width = 556.000000000000000000
+      Size.Width = 486.000000000000000000
       Size.Height = 166.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 0
       object Layout3: TLayout
         Align = Client
-        Size.Width = 376.000000000000000000
+        Size.Width = 306.000000000000000000
         Size.Height = 166.000000000000000000
         Size.PlatformDefault = False
         TabOrder = 0
         object Layout4: TLayout
           Align = Top
-          Size.Width = 376.000000000000000000
+          Size.Width = 306.000000000000000000
           Size.Height = 40.000000000000000000
           Size.PlatformDefault = False
           TabOrder = 0
@@ -57,7 +57,7 @@ object AddChildFrame: TAddChildFrame
             Margins.Top = 5.000000000000000000
             Margins.Right = 5.000000000000000000
             Margins.Bottom = 5.000000000000000000
-            Size.Width = 204.000000000000000000
+            Size.Width = 134.000000000000000000
             Size.Height = 30.000000000000000000
             Size.PlatformDefault = False
             TabOrder = 0
@@ -80,7 +80,7 @@ object AddChildFrame: TAddChildFrame
           object Label2: TLabel
             Align = Right
             StyledSettings = []
-            Position.X = 295.000000000000000000
+            Position.X = 225.000000000000000000
             Size.Width = 81.000000000000000000
             Size.Height = 40.000000000000000000
             Size.PlatformDefault = False
@@ -95,7 +95,7 @@ object AddChildFrame: TAddChildFrame
         object Layout5: TLayout
           Align = Top
           Position.Y = 40.000000000000000000
-          Size.Width = 376.000000000000000000
+          Size.Width = 306.000000000000000000
           Size.Height = 40.000000000000000000
           Size.PlatformDefault = False
           TabOrder = 3
@@ -124,7 +124,7 @@ object AddChildFrame: TAddChildFrame
             Margins.Top = 5.000000000000000000
             Margins.Right = 5.000000000000000000
             Margins.Bottom = 5.000000000000000000
-            Size.Width = 280.000000000000000000
+            Size.Width = 210.000000000000000000
             Size.Height = 30.000000000000000000
             Size.PlatformDefault = False
             StyledSettings = [Family]
@@ -133,7 +133,7 @@ object AddChildFrame: TAddChildFrame
         object Layout6: TLayout
           Align = Top
           Position.Y = 120.000000000000000000
-          Size.Width = 376.000000000000000000
+          Size.Width = 306.000000000000000000
           Size.Height = 40.000000000000000000
           Size.PlatformDefault = False
           TabOrder = 2
@@ -162,7 +162,7 @@ object AddChildFrame: TAddChildFrame
             Margins.Top = 5.000000000000000000
             Margins.Right = 5.000000000000000000
             Margins.Bottom = 5.000000000000000000
-            Size.Width = 280.000000000000000000
+            Size.Width = 210.000000000000000000
             Size.Height = 30.000000000000000000
             Size.PlatformDefault = False
             StyledSettings = [Family]
@@ -171,7 +171,7 @@ object AddChildFrame: TAddChildFrame
         object Layout7: TLayout
           Align = Top
           Position.Y = 80.000000000000000000
-          Size.Width = 376.000000000000000000
+          Size.Width = 306.000000000000000000
           Size.Height = 40.000000000000000000
           Size.PlatformDefault = False
           TabOrder = 1
@@ -200,7 +200,7 @@ object AddChildFrame: TAddChildFrame
             Margins.Top = 5.000000000000000000
             Margins.Right = 5.000000000000000000
             Margins.Bottom = 5.000000000000000000
-            Size.Width = 280.000000000000000000
+            Size.Width = 210.000000000000000000
             Size.Height = 30.000000000000000000
             Size.PlatformDefault = False
             StyledSettings = [Family]
@@ -748,21 +748,21 @@ object AddChildFrame: TAddChildFrame
     end
     object TabControl1: TTabControl
       Align = Client
-      Size.Width = 556.000000000000000000
+      Size.Width = 486.000000000000000000
       Size.Height = 622.000000000000000000
       Size.PlatformDefault = False
       TabIndex = 0
       TabOrder = 1
       TabPosition = PlatformDefault
       Sizes = (
-        556s
-        617s
-        556s
-        617s
-        556s
-        617s
-        556s
-        617s)
+        486s
+        597s
+        486s
+        597s
+        486s
+        597s
+        486s
+        597s)
       object tabBorn: TTabItem
         CustomIcon = <
           item
@@ -770,8 +770,8 @@ object AddChildFrame: TAddChildFrame
         TextSettings.Font.Size = 11.000000000000000000
         StyledSettings = [Family, Style, FontColor]
         IsSelected = True
-        Size.Width = 0.000000000000000000
-        Size.Height = 5.000000000000000000
+        Size.Width = 43.000000000000000000
+        Size.Height = 25.000000000000000000
         Size.PlatformDefault = False
         StyleLookup = ''
         TabOrder = 0
@@ -784,16 +784,16 @@ object AddChildFrame: TAddChildFrame
           Margins.Top = 5.000000000000000000
           Margins.Right = 5.000000000000000000
           Margins.Bottom = 5.000000000000000000
-          Size.Width = 546.000000000000000000
-          Size.Height = 607.000000000000000000
+          Size.Width = 476.000000000000000000
+          Size.Height = 587.000000000000000000
           Size.PlatformDefault = False
           TabOrder = 0
-          Viewport.Width = 546.000000000000000000
-          Viewport.Height = 607.000000000000000000
+          Viewport.Width = 476.000000000000000000
+          Viewport.Height = 587.000000000000000000
           object Layout8: TLayout
             Align = Top
             Position.Y = 120.000000000000000000
-            Size.Width = 546.000000000000000000
+            Size.Width = 476.000000000000000000
             Size.Height = 40.000000000000000000
             Size.PlatformDefault = False
             TabOrder = 4
@@ -822,7 +822,7 @@ object AddChildFrame: TAddChildFrame
               Margins.Top = 5.000000000000000000
               Margins.Right = 5.000000000000000000
               Margins.Bottom = 5.000000000000000000
-              Size.Width = 450.000000000000000000
+              Size.Width = 380.000000000000000000
               Size.Height = 30.000000000000000000
               Size.PlatformDefault = False
               StyledSettings = [Family]
@@ -830,7 +830,7 @@ object AddChildFrame: TAddChildFrame
           end
           object Layout9: TLayout
             Align = Top
-            Size.Width = 546.000000000000000000
+            Size.Width = 476.000000000000000000
             Size.Height = 40.000000000000000000
             Size.PlatformDefault = False
             TabOrder = 5
@@ -849,29 +849,105 @@ object AddChildFrame: TAddChildFrame
               Text = 'Date of Birth'
               TabOrder = 2
             end
-            object dateBirth: TDateEdit
-              Date = 44589.000000000000000000
-              DateFormatKind = Long
+            object Layout12: TLayout
               Align = Client
-              Margins.Top = 5.000000000000000000
-              Margins.Right = 5.000000000000000000
-              Margins.Bottom = 5.000000000000000000
-              Size.Width = 450.000000000000000000
-              Size.Height = 30.000000000000000000
+              Size.Width = 385.000000000000000000
+              Size.Height = 40.000000000000000000
               Size.PlatformDefault = False
-              StyledSettings = [Family]
-              TabOrder = 3
-              TextSettings.Font.Size = 11.000000000000000000
-              TextSettings.Font.StyleExt = {00070000000000000004000000}
-              TextSettings.FontColor = claSlategray
-              TextSettings.HorzAlign = Center
+              TabOrder = 0
+              object Label16: TLabel
+                Align = Left
+                StyledSettings = []
+                Size.Width = 35.000000000000000000
+                Size.Height = 40.000000000000000000
+                Size.PlatformDefault = False
+                TextSettings.Font.Family = 'Roboto'
+                TextSettings.Font.Size = 11.000000000000000000
+                TextSettings.Font.StyleExt = {00070000000000000004000000}
+                TextSettings.FontColor = claSlategray
+                TextSettings.HorzAlign = Trailing
+                Text = 'day'
+                TabOrder = 2
+              end
+              object BornDay: TComboBox
+                Align = Left
+                ItemIndex = 0
+                Margins.Left = 5.000000000000000000
+                Margins.Top = 5.000000000000000000
+                Margins.Right = 5.000000000000000000
+                Margins.Bottom = 5.000000000000000000
+                Position.X = 40.000000000000000000
+                Position.Y = 5.000000000000000000
+                Size.Width = 76.000000000000000000
+                Size.Height = 30.000000000000000000
+                Size.PlatformDefault = False
+                TabOrder = 5
+              end
+              object Label20: TLabel
+                Align = Left
+                StyledSettings = []
+                Position.X = 121.000000000000000000
+                Size.Width = 35.000000000000000000
+                Size.Height = 40.000000000000000000
+                Size.PlatformDefault = False
+                TextSettings.Font.Family = 'Roboto'
+                TextSettings.Font.Size = 11.000000000000000000
+                TextSettings.Font.StyleExt = {00070000000000000004000000}
+                TextSettings.FontColor = claSlategray
+                TextSettings.HorzAlign = Trailing
+                Text = 'month'
+                TabOrder = 1
+              end
+              object BornMonth: TComboBox
+                Align = Left
+                ItemIndex = 0
+                Margins.Left = 5.000000000000000000
+                Margins.Top = 5.000000000000000000
+                Margins.Right = 5.000000000000000000
+                Margins.Bottom = 5.000000000000000000
+                Position.X = 161.000000000000000000
+                Position.Y = 5.000000000000000000
+                Size.Width = 76.000000000000000000
+                Size.Height = 30.000000000000000000
+                Size.PlatformDefault = False
+                TabOrder = 4
+              end
+              object Label17: TLabel
+                Align = Left
+                StyledSettings = []
+                Position.X = 242.000000000000000000
+                Size.Width = 35.000000000000000000
+                Size.Height = 40.000000000000000000
+                Size.PlatformDefault = False
+                TextSettings.Font.Family = 'Roboto'
+                TextSettings.Font.Size = 11.000000000000000000
+                TextSettings.Font.StyleExt = {00070000000000000004000000}
+                TextSettings.FontColor = claSlategray
+                TextSettings.HorzAlign = Trailing
+                Text = 'year'
+                TabOrder = 0
+              end
+              object BornYear: TComboBox
+                Align = Left
+                ItemIndex = 0
+                Margins.Left = 5.000000000000000000
+                Margins.Top = 5.000000000000000000
+                Margins.Right = 5.000000000000000000
+                Margins.Bottom = 5.000000000000000000
+                Position.X = 282.000000000000000000
+                Position.Y = 5.000000000000000000
+                Size.Width = 80.000000000000000000
+                Size.Height = 30.000000000000000000
+                Size.PlatformDefault = False
+                TabOrder = 3
+              end
             end
           end
           object layDeath: TLayout
             Align = Top
             Enabled = False
             Position.Y = 80.000000000000000000
-            Size.Width = 546.000000000000000000
+            Size.Width = 476.000000000000000000
             Size.Height = 40.000000000000000000
             Size.PlatformDefault = False
             TabOrder = 1
@@ -890,34 +966,52 @@ object AddChildFrame: TAddChildFrame
               Text = 'Date of death'
               TabOrder = 2
             end
-            object dateDeath: TDateEdit
-              Date = 44589.000000000000000000
-              Format = 'yyyy '#1075'.'
+            object Layout13: TLayout
               Align = Client
-              Margins.Top = 5.000000000000000000
-              Margins.Right = 5.000000000000000000
-              Margins.Bottom = 5.000000000000000000
-              Size.Width = 450.000000000000000000
-              Size.Height = 30.000000000000000000
+              Size.Width = 385.000000000000000000
+              Size.Height = 40.000000000000000000
               Size.PlatformDefault = False
-              StyledSettings = [Family]
-              TabOrder = 3
-              TextSettings.Font.Size = 11.000000000000000000
-              TextSettings.Font.StyleExt = {00070000000000000004000000}
-              TextSettings.FontColor = claSlategray
-              TextSettings.HorzAlign = Center
+              TabOrder = 0
+              object Label18: TLabel
+                Align = Left
+                StyledSettings = []
+                Size.Width = 35.000000000000000000
+                Size.Height = 40.000000000000000000
+                Size.PlatformDefault = False
+                TextSettings.Font.Family = 'Roboto'
+                TextSettings.Font.Size = 11.000000000000000000
+                TextSettings.Font.StyleExt = {00070000000000000004000000}
+                TextSettings.FontColor = claSlategray
+                TextSettings.HorzAlign = Trailing
+                Text = 'year'
+                TabOrder = 0
+              end
+              object DeadYear: TComboBox
+                Align = Left
+                ItemIndex = 0
+                Margins.Left = 5.000000000000000000
+                Margins.Top = 5.000000000000000000
+                Margins.Right = 5.000000000000000000
+                Margins.Bottom = 5.000000000000000000
+                Position.X = 40.000000000000000000
+                Position.Y = 5.000000000000000000
+                Size.Width = 80.000000000000000000
+                Size.Height = 30.000000000000000000
+                Size.PlatformDefault = False
+                TabOrder = 3
+              end
             end
           end
           object Layout10: TLayout
             Align = Top
             Position.Y = 40.000000000000000000
-            Size.Width = 546.000000000000000000
+            Size.Width = 476.000000000000000000
             Size.Height = 40.000000000000000000
             Size.PlatformDefault = False
             TabOrder = 0
             object Layout11: TLayout
               Align = Client
-              Size.Width = 455.000000000000000000
+              Size.Width = 385.000000000000000000
               Size.Height = 40.000000000000000000
               Size.PlatformDefault = False
               TabOrder = 0
@@ -928,7 +1022,7 @@ object AddChildFrame: TAddChildFrame
                 Margins.Top = 5.000000000000000000
                 Margins.Right = 5.000000000000000000
                 Margins.Bottom = 5.000000000000000000
-                Size.Width = 283.000000000000000000
+                Size.Width = 213.000000000000000000
                 Size.Height = 30.000000000000000000
                 Size.PlatformDefault = False
                 TabOrder = 0
@@ -951,7 +1045,7 @@ object AddChildFrame: TAddChildFrame
               object Label9: TLabel
                 Align = Right
                 StyledSettings = []
-                Position.X = 374.000000000000000000
+                Position.X = 304.000000000000000000
                 Size.Width = 81.000000000000000000
                 Size.Height = 40.000000000000000000
                 Size.PlatformDefault = False
@@ -983,7 +1077,7 @@ object AddChildFrame: TAddChildFrame
             Align = Top
             Enabled = False
             Position.Y = 160.000000000000000000
-            Size.Width = 546.000000000000000000
+            Size.Width = 476.000000000000000000
             Size.Height = 40.000000000000000000
             Size.PlatformDefault = False
             TabOrder = 3
@@ -1012,7 +1106,7 @@ object AddChildFrame: TAddChildFrame
               Margins.Top = 5.000000000000000000
               Margins.Right = 5.000000000000000000
               Margins.Bottom = 5.000000000000000000
-              Size.Width = 450.000000000000000000
+              Size.Width = 380.000000000000000000
               Size.Height = 30.000000000000000000
               Size.PlatformDefault = False
               StyledSettings = [Family]
@@ -1021,13 +1115,13 @@ object AddChildFrame: TAddChildFrame
           object layParent: TLayout
             Align = Top
             Position.Y = 223.000000000000000000
-            Size.Width = 546.000000000000000000
+            Size.Width = 476.000000000000000000
             Size.Height = 220.000000000000000000
             Size.PlatformDefault = False
             TabOrder = 6
             object GridPanelLayout1: TGridPanelLayout
               Align = Client
-              Size.Width = 546.000000000000000000
+              Size.Width = 476.000000000000000000
               Size.Height = 220.000000000000000000
               Size.PlatformDefault = False
               TabOrder = 0
@@ -1060,7 +1154,7 @@ object AddChildFrame: TAddChildFrame
                 Margins.Top = 10.000000000000000000
                 Margins.Right = 10.000000000000000000
                 Margins.Bottom = 10.000000000000000000
-                Position.X = 113.000000000000000000
+                Position.X = 78.000000000000000000
                 Position.Y = 10.000000000000000000
                 Size.Width = 150.000000000000000000
                 Size.Height = 200.000000000000000000
@@ -1107,7 +1201,7 @@ object AddChildFrame: TAddChildFrame
                 Margins.Top = 10.000000000000000000
                 Margins.Right = 10.000000000000000000
                 Margins.Bottom = 10.000000000000000000
-                Position.X = 283.000000000000000000
+                Position.X = 248.000000000000000000
                 Position.Y = 10.000000000000000000
                 Size.Width = 150.000000000000000000
                 Size.Height = 200.000000000000000000
@@ -1154,7 +1248,7 @@ object AddChildFrame: TAddChildFrame
             StyledSettings = []
             Margins.Right = 10.000000000000000000
             Position.Y = 200.000000000000000000
-            Size.Width = 536.000000000000000000
+            Size.Width = 466.000000000000000000
             Size.Height = 23.000000000000000000
             Size.PlatformDefault = False
             TextSettings.Font.Family = 'Roboto'
@@ -1174,8 +1268,8 @@ object AddChildFrame: TAddChildFrame
         TextSettings.Font.Size = 11.000000000000000000
         StyledSettings = [Family, Style, FontColor]
         IsSelected = False
-        Size.Width = 0.000000000000000000
-        Size.Height = 5.000000000000000000
+        Size.Width = 45.000000000000000000
+        Size.Height = 25.000000000000000000
         Size.PlatformDefault = False
         StyleLookup = ''
         TabOrder = 0
@@ -1188,12 +1282,12 @@ object AddChildFrame: TAddChildFrame
           Margins.Top = 5.000000000000000000
           Margins.Right = 5.000000000000000000
           Margins.Bottom = 5.000000000000000000
-          Size.Width = 546.000000000000000000
-          Size.Height = 607.000000000000000000
+          Size.Width = 476.000000000000000000
+          Size.Height = 587.000000000000000000
           Size.PlatformDefault = False
           TabOrder = 0
-          Viewport.Width = 546.000000000000000000
-          Viewport.Height = 607.000000000000000000
+          Viewport.Width = 476.000000000000000000
+          Viewport.Height = 587.000000000000000000
         end
       end
       object tabAducation: TTabItem
@@ -1203,8 +1297,8 @@ object AddChildFrame: TAddChildFrame
         TextSettings.Font.Size = 11.000000000000000000
         StyledSettings = [Family, Style, FontColor]
         IsSelected = False
-        Size.Width = 0.000000000000000000
-        Size.Height = 5.000000000000000000
+        Size.Width = 69.000000000000000000
+        Size.Height = 25.000000000000000000
         Size.PlatformDefault = False
         StyleLookup = ''
         TabOrder = 0
@@ -1217,12 +1311,12 @@ object AddChildFrame: TAddChildFrame
           Margins.Top = 5.000000000000000000
           Margins.Right = 5.000000000000000000
           Margins.Bottom = 5.000000000000000000
-          Size.Width = 546.000000000000000000
-          Size.Height = 607.000000000000000000
+          Size.Width = 476.000000000000000000
+          Size.Height = 587.000000000000000000
           Size.PlatformDefault = False
           TabOrder = 0
-          Viewport.Width = 546.000000000000000000
-          Viewport.Height = 607.000000000000000000
+          Viewport.Width = 476.000000000000000000
+          Viewport.Height = 587.000000000000000000
         end
       end
       object tabOther: TTabItem
@@ -1232,8 +1326,8 @@ object AddChildFrame: TAddChildFrame
         TextSettings.Font.Size = 11.000000000000000000
         StyledSettings = [Family, Style, FontColor]
         IsSelected = False
-        Size.Width = 0.000000000000000000
-        Size.Height = 5.000000000000000000
+        Size.Width = 107.000000000000000000
+        Size.Height = 25.000000000000000000
         Size.PlatformDefault = False
         StyleLookup = ''
         TabOrder = 0
@@ -1248,12 +1342,12 @@ object AddChildFrame: TAddChildFrame
           Margins.Top = 5.000000000000000000
           Margins.Right = 5.000000000000000000
           Margins.Bottom = 5.000000000000000000
-          Size.Width = 546.000000000000000000
-          Size.Height = 607.000000000000000000
+          Size.Width = 476.000000000000000000
+          Size.Height = 587.000000000000000000
           Size.PlatformDefault = False
           TabOrder = 0
-          Viewport.Width = 546.000000000000000000
-          Viewport.Height = 607.000000000000000000
+          Viewport.Width = 476.000000000000000000
+          Viewport.Height = 587.000000000000000000
         end
       end
     end

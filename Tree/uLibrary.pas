@@ -2,10 +2,26 @@ unit uLibrary;
 
 interface
 
-uses FireDAC.Comp.Client;
+uses FireDAC.Comp.Client, FMX.Graphics;
 
 type
   tTypePeople = (Active,Child,BrS,Other,Married);
+
+  rPeople = record
+    child: integer;
+    father: integer;
+    mother: integer;
+    married: integer;
+    sex: string;
+    gen: integer;
+    photo: TBitmap;
+    photo_exist: integer;
+    is_active: boolean;
+    name: string;
+    born: string;
+    dead: string;
+    is_dead: integer;
+  end;
 
   // ----------------------------------Constants-----------------------------------------
 const
