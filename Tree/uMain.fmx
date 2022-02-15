@@ -3,7 +3,7 @@ object MainForm: TMainForm
   Top = 0
   Caption = 'Form1'
   ClientHeight = 664
-  ClientWidth = 592
+  ClientWidth = 562
   Fill.Kind = Solid
   FormFactor.Width = 320
   FormFactor.Height = 480
@@ -13,7 +13,7 @@ object MainForm: TMainForm
   DesignerMasterStyle = 3
   object controlMain: TTabControl
     Align = Client
-    Size.Width = 592.000000000000000000
+    Size.Width = 562.000000000000000000
     Size.Height = 664.000000000000000000
     Size.PlatformDefault = False
     TabHeight = 49.000000000000000000
@@ -21,9 +21,9 @@ object MainForm: TMainForm
     TabOrder = 2
     TabPosition = None
     Sizes = (
-      592s
+      562s
       664s
-      592s
+      562s
       664s)
     object tabAdd: TTabItem
       CustomIcon = <

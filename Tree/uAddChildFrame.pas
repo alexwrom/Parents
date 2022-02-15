@@ -102,11 +102,6 @@ procedure TAddChildFrame.btnBackClick(Sender: TObject);
 begin
   MainForm.controlMain.ActiveTab := MainForm.tabTree;
 
-  MainForm.TreeFrame.Close;
-
-  MainForm.TreeFrame := TTreeFrame.Create(nil);
-  MainForm.TreeFrame.Parent := MainForm.tabTree;
-
   MainForm.AddChildFrame.Parent := nil;
   FreeAndNil(MainForm.AddChildFrame);
 
@@ -155,6 +150,9 @@ begin
       end;
   end;
 
+  MainForm.TreeFrame.Close;
+  MainForm.TreeFrame := TTreeFrame.Create(nil);
+  MainForm.TreeFrame.Parent := MainForm.tabTree;
   btnBackClick(nil);
 end;
 
@@ -185,7 +183,7 @@ begin
       begin
         btnDeleteChild.Visible := true;
         MainForm.controlMain.ActiveTab := MainForm.tabAdd;
-        ExeActive('select * from tree where child_id = ' + MainForm.TreeFrame.listPeople[Self.Tag].child.ToString);
+        ExeActive('select * from tree_data where child_id = ' + MainForm.TreeFrame.listPeople[Self.Tag].child.ToString);
         father := tmpQuery.FieldByName('father_id').AsInteger;
         mother := tmpQuery.FieldByName('mother_id').AsInteger;
 
@@ -193,6 +191,11 @@ begin
         swSex.Enabled := false;
 
         Photo.Fill.Bitmap.Bitmap.Assign(tmpQuery.FieldByName('photo'));
+        if tmpQuery.FieldByName('photoExist').AsInteger = 0 then
+          if not swSex.IsChecked then
+            Photo.Fill.Bitmap.Bitmap.Assign(MainForm.listNotPhoto.Source[0].MultiResBitmap[0].Bitmap)
+          else
+            Photo.Fill.Bitmap.Bitmap.Assign(MainForm.listNotPhoto.Source[1].MultiResBitmap[0].Bitmap);
 
         FirstName.Text := tmpQuery.FieldByName('firstname').AsString;
         LastName.Text := tmpQuery.FieldByName('lastname').AsString;
@@ -305,6 +308,7 @@ end;
 function TAddChildFrame.FindPeople(peopleID: integer): rPeople;
 var
   I: integer;
+  NullPeople: rPeople;
 begin
   for I := 0 to MainForm.TreeFrame.listPeople.Count - 1 do
     if (MainForm.TreeFrame.listPeople[I].child = peopleID) then
@@ -312,7 +316,8 @@ begin
       result := MainForm.TreeFrame.listPeople[I];
       exit;
     end;
-  result := MainForm.TreeFrame.listPeople[Self.Tag];
+  NullPeople.child := 0;
+  result := NullPeople;
 end;
 
 procedure TAddChildFrame.btnDeleteChildClick(Sender: TObject);
@@ -343,6 +348,10 @@ begin
         else
           ExeSQL('update tree set father_id = NULL where father_id = ' + Self.Tag.ToString);
 
+        MainForm.TreeFrame.Close;
+
+        MainForm.TreeFrame := TTreeFrame.Create(nil);
+        MainForm.TreeFrame.Parent := MainForm.tabTree;
         btnBackClick(nil);
       end;
     end);

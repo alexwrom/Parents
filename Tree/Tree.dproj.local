@@ -1,25 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
 	<Transactions>
+    <Transaction>1899.12.30 00:00:00.000.602,D:\Delphi\Android\Parents\Tree\uFrameAdd.pas=D:\Delphi\Android\Parents\Tree\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.346,=D:\Delphi\Android\Parents\Tree\Unit1.pas</Transaction>
     <Transaction>1899.12.30 00:00:00.000.030,D:\Delphi\Android\Parents\uTreeFrame.pas=D:\Delphi\Android\Parents\Unit1.pas</Transaction>
     <Transaction>1899.12.30 00:00:00.000.737,D:\Delphi\Android\Parents\uMain.pas=D:\Delphi\Android\Parents\Parents.pas</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.081,=C:\Users\Alex\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.666,D:\Delphi\Android\Parents\Parents.pas=C:\Users\Alex\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
     <Transaction>1899.12.30 00:00:00.000.387,D:\Delphi\Android\Parents\uAddChildFrame.pas=D:\Delphi\Android\Parents\Unit1.pas</Transaction>
     <Transaction>1899.12.30 00:00:00.000.737,D:\Delphi\Android\Parents\uMain.fmx=D:\Delphi\Android\Parents\Parents.fmx</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.666,D:\Delphi\Android\Parents\Parents.pas=C:\Users\Alex\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
     <Transaction>1899.12.30 00:00:00.000.030,D:\Delphi\Android\Parents\uTreeFrame.fmx=D:\Delphi\Android\Parents\Unit1.fmx</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.539,=D:\Delphi\Android\Parents\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.081,=C:\Users\Alex\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
     <Transaction>1899.12.30 00:00:00.000.278,D:\Delphi\Android\Tree\Tree.dproj=D:\Delphi\Android\Tree\Parents.dproj</Transaction>
     <Transaction>1899.12.30 00:00:00.000.432,D:\Delphi\Android\Parents\Parents.dproj=C:\Users\Alex\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
     <Transaction>1899.12.30 00:00:00.000.766,=D:\Delphi\Android\Parents\uLibrary.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.602,D:\Delphi\Android\Parents\Tree\uFrameAdd.fmx=D:\Delphi\Android\Parents\Tree\Unit1.fmx</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.539,=D:\Delphi\Android\Parents\Unit1.pas</Transaction>
     <Transaction>1899.12.30 00:00:00.000.041,=D:\Delphi\Android\Parents\Unit1.pas</Transaction>
     <Transaction>1899.12.30 00:00:00.000.387,D:\Delphi\Android\Parents\uAddChildFrame.fmx=D:\Delphi\Android\Parents\Unit1.fmx</Transaction>
     <Transaction>1899.12.30 00:00:00.000.666,D:\Delphi\Android\Parents\Parents.fmx=C:\Users\Alex\Documents\Embarcadero\Studio\Projects\Unit1.fmx</Transaction>
-    <Transaction>2022.02.06 16:09:40.346,=D:\Delphi\Android\Parents\Tree\Unit1.pas</Transaction>
-    <Transaction>2022.02.06 16:10:47.602,D:\Delphi\Android\Parents\Tree\uFrameAdd.fmx=D:\Delphi\Android\Parents\Tree\Unit1.fmx</Transaction>
-    <Transaction>2022.02.06 16:10:47.602,D:\Delphi\Android\Parents\Tree\uFrameAdd.pas=D:\Delphi\Android\Parents\Tree\Unit1.pas</Transaction>
   </Transactions>
 	<ActiveMobileDevice>
-		<NoProfile Android64="PFGQ896L89GICQFE"/>
+		<NoProfile Android64=""/>
 	</ActiveMobileDevice>
 </BorlandProject>

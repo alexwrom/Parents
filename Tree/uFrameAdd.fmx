@@ -79,7 +79,7 @@ object FrameAdd: TFrameAdd
                 Value = 50.018308311973630000
               end
               item
-                Value = 49.981691688026360000
+                Value = 49.981691688026370000
               end>
             object Layout3: TLayout
               Align = Client

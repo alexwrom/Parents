@@ -89,6 +89,7 @@ end;
 constructor TTreeFrame.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
+  MaxGeneration := 6;
   listPeople := TList<rPeople>.Create;
   listChildren := TList<rPeople>.Create;
   listBrS := TList<rPeople>.Create;
@@ -105,7 +106,7 @@ var
   I: integer;
   ChildID: integer;
 begin
-  MaxGeneration := 6;
+
   for I := 0 to listOther.Count - 1 do
   begin
     ChildID := GetChildID(listOther[I].child);
@@ -401,6 +402,7 @@ begin
       end;
     end
     else
+    if typePeople = Other then
     begin
       tmpLine := TRectangle.Create(nil);
 
